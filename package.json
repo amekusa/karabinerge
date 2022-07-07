@@ -1,0 +1,21 @@
+{
+  "name": "karabinerge",
+  "version": "1.0.0",
+  "description": "Karabiner Elements complex modifications generator",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amekusa/karabinerge.git"
+  },
+  "keywords": [
+    "karabiner",
+    "karabiner-elements",
+    "macos",
+    "utility",
+    "json",
+    "accessibility",
+    "shortcut"
+  ],
+  "author": "amekusa (https://amekusa.com)",
+  "license": "MIT"
+}
