@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Karabiner Elements complex modifications generator",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amekusa/karabinerge.git"
@@ -14,6 +17,7 @@
     "utility",
     "json",
     "accessibility",
+    "productivity",
     "shortcut"
   ],
   "author": "amekusa (https://amekusa.com)",
