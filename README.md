@@ -3,7 +3,7 @@ Karabiner Elements complex modifications generator
 
 
 ## What's this
-Karabinerge provides you some functions and classes that help you to **programatically generate complex modifications** of Karabiner-Elements for your needs with **very short and readable codes**.
+Karabinerge provides you some functions and classes that help you to **programmatically generate complex modifications** of Karabiner-Elements for your needs with **very short and readable codes**.
 
 
 ## How to install
@@ -72,7 +72,7 @@ node example.js > example.json
 with (require('karabinerge')) {
   let rules = new RuleSet('My Rules');
 
-  rules.add('command + h/j/k/l to arrows keys')
+  rules.add('command + H/J/K/L to arrow keys')
     .remap({
       from: key('h', 'command'),
       to:   key('left_arrow')
@@ -100,7 +100,7 @@ Generates:
   "title": "My Rules",
   "rules": [
     {
-      "description": "command + h/j/k/l to arrows keys",
+      "description": "command + H/J/K/L to arrow keys",
       "manipulators": [
         {
           "type": "basic",
