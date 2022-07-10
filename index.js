@@ -29,6 +29,27 @@
  *
  */
 
+ class Sanitizer {
+   constructor() {
+     this.filters = [];
+   }
+   addFilter(q, fn) {
+     this.filters.push({ q: arr(q), fn });
+     return this;
+   }
+   sanitize(obj) {
+     // console.debug('sanitize:', obj);
+     for (let f of this.filters) {
+       for (let q of f.q) {
+         // console.debug('filter.q:', q);
+         let dug = dig(obj, q, { mutate: found => f.fn(found) });
+         // console.debug('dug:', JSON.stringify(dug, null, 2));
+       }
+     }
+     return obj;
+   }
+ }
+
 class RuleSet {
   constructor(title) {
     this.title = title;
@@ -45,6 +66,9 @@ class RuleSet {
       rules: this.rules.map(item => item.toJSON())
     };
   }
+  out() {
+    console.log(JSON.stringify(this, null, 2));
+  }
 }
 
 class Rule {
@@ -54,9 +78,9 @@ class Rule {
     this.conds = [];
   }
   remap(map) {
-    let _map = { type: 'basic', ...map };
-    if (this.conds.length) _map = Object.assign(_map, { conditions: this.conds });
-    this.remaps.push(_map);
+    if (!map.type) map = { type: 'basic', ...map };
+    if (this.conds.length) map = Object.assign(map, { conditions: this.conds });
+    this.remaps.push(remapSanitizer.sanitize(map));
     return this;
   }
   cond(cond) {
@@ -71,32 +95,111 @@ class Rule {
   }
 }
 
-function _arr(x) {
+const remapSanitizer = new Sanitizer()
+  .addFilter('from.modifiers', prop => {
+    switch (typeof prop) {
+    case 'string':
+      return { mandatory: [prop] };
+    case 'object':
+      if (Array.isArray(prop)) return { mandatory: prop };
+    }
+    return prop;
+  })
+  .addFilter([
+    'from.modifiers.mandatory',
+    'from.modifiers.optional',
+    'to',
+    'to[].modifiers',
+    'to_if_alone',
+    'to_if_held_down',
+    'to_after_key_up',
+    'to_delayed_action.to_if_invoked',
+    'to_delayed_action.to_if_canceled'
+  ], prop => {
+    return arr(prop)
+  });
+
+/**
+ * @param {object} obj - Object
+ * @param {string|string[]} q - Query
+ * @param {object|boolean} [opts] - Options
+ *   @param {any} [opts.assign] - Value to assign to the end property if it doesn't exist
+ *   @param {function} [opts.forEach]
+ *   @param {function} [opts.makePath]
+ *   @param {function} [opts.mutate]
+ * @return {any|object} Value of the found property, or mutated `opts`
+ * @author amekusa.com
+ */
+function dig(obj, q, opts = undefined) {
+  q = Array.isArray(q) ? q : q.split('.');
+  if (opts) {
+    if (typeof opts == 'boolean') opts = {};
+    opts.query = q;
+    opts.path = [obj];
+  }
+  for (let i = 0;; i++) {
+    let iQ = q[i];
+
+    // array query
+    if (iQ.endsWith('[]')) {
+      iQ = iQ.substring(0, iQ.length - 2);
+      if (iQ in obj) {
+        if (!Array.isArray(obj[iQ])) return undefined;
+        let qRest = q.slice(i + 1);
+        if (opts) {
+          let results = [];
+          for (let j = 0; j < obj[iQ].length; j++) results.push(dig(obj[iQ][j], qRest, Object.assign({}, opts)));
+          opts.results = results
+          return opts;
+        }
+        let r = [];
+        for (let j = 0; j < obj[iQ].length; j++) r.push(dig(obj[iQ][j], qRest));
+        return r;
+
+      } else if (opts && 'assign' in opts) throw `property '${iQ}[]' does not exist and can not be created`;
+      return undefined;
+    }
+
+    if (iQ in obj) { // property found
+      if (i == q.length - 1) { // query endpoint
+        if (opts) {
+          if (opts.mutate) obj[iQ] = opts.mutate(obj[iQ], iQ, i, obj);
+          opts.found = obj[iQ];
+          opts.parent = obj;
+          return opts;
+        }
+        return obj[iQ];
+
+      } if (typeof obj[iQ] == 'object') { // intermediate object
+        obj = obj[iQ]; // dig into the object
+        if (opts) opts.path.push(obj);
+
+      } else if (opts && 'assign' in opts) throw `property '${iQ}' exists but not an object`;
+      else return undefined;
+
+    } else if (opts && 'assign' in opts) { // assignment
+      for (;; i++) {
+        if (i == q.length - 1) { // query endpoint
+          obj[iQ] = opts.assign;
+          opts.parent = obj;
+          return opts;
+        }
+        obj[iQ] = opts.makePath ? opts.makePath(iQ, i, opts.path) : {};
+        obj = obj[iQ]; // dig into the object
+        opts.path.push(obj);
+      }
+
+    } else return undefined; // property not found
+  }
+}
+
+function arr(x) {
   return Array.isArray(x) ? x : [x];
 }
 
-function _arr_prop(obj, ...props) {
-  for (let prop of props) {
-    if (!(prop in obj)) continue;
-    if (Array.isArray(obj[prop])) continue;
-    obj[prop] = [obj[prop]];
-  }
-  return obj;
-}
-
 function key(code, mods = null, opts = null) {
-  let r = {
-    key_code: code,
-  };
-  if (mods) {
-    switch (typeof mods) {
-      case 'string':
-        mods = [mods]; break;
-      case 'object':
-        _arr_prop(mods, 'mandatory', 'optional');
-    }
-    r.modifiers = mods;
-  }
+  let r = { key_code: code };
+  if (mods) r.modifiers = mods;
   return opts ? Object.assign(r, opts) : r;
 }
 
