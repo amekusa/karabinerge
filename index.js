@@ -38,13 +38,8 @@
      return this;
    }
    sanitize(obj) {
-     // console.debug('sanitize:', obj);
      for (let f of this.filters) {
-       for (let q of f.q) {
-         // console.debug('filter.q:', q);
-         let dug = dig(obj, q, { mutate: found => f.fn(found) });
-         // console.debug('dug:', JSON.stringify(dug, null, 2));
-       }
+       for (let q of f.q) dig(obj, q, { mutate: found => f.fn(found) });
      }
      return obj;
    }
