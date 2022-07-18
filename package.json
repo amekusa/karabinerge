@@ -21,5 +21,8 @@
     "shortcut"
   ],
   "author": "amekusa (https://amekusa.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "obj-digger": "^1.1.1"
+  }
 }
