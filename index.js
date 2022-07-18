@@ -29,7 +29,11 @@
  *
  */
 
-const dig = require('obj-digger');
+const
+  os = require('os'),
+  fs = require('fs'),
+  path = require('path'),
+  dig = require('obj-digger');
 
 class Sanitizer {
   constructor() {
@@ -89,6 +93,55 @@ class Rule {
       description: this.desc,
       manipulators: this.remaps
     };
+  }
+}
+
+class Config {
+  static new(...args) {
+    return new this(...args);
+  }
+  constructor(file = null) {
+    this.setFile(file || path.join(os.homedir(), '.config', 'karabiner', 'karabiner.json'));
+    this.data = null;
+  }
+  setFile(file) {
+    this.file = file;
+    return this;
+  }
+  load(file = null) {
+    if (!file) file = this.file;
+    let content = fs.readFileSync(file, 'utf8');
+    this.data = JSON.parse(content);
+    return this;
+  }
+  save(file = null) {
+    if (!file) file = this.file;
+    let content = JSON.stringify(this.data, null, 4);
+    fs.writeFileSync(file, content, 'utf8');
+    return this;
+  }
+  backup() {
+    return this.save(this.file + '.bak');
+  }
+  loadBackup() {
+    return this.load(this.file + '.bak');
+  }
+  deleteBackup() {
+    fs.unlinkSync(this.file + '.bak');
+    return this;
+  }
+  get currentProfile() {
+    if (!this.data) this.load();
+    let profs = this.data.profiles;
+    if (!profs.length) throw `no profiles`;
+    for (let i = 0; i < profs.length; i++) {
+      if (profs[i].selected) return profs[i];
+    }
+    throw `no active profile`;
+  }
+  clearRules() {
+    dig(this.currentProfile, 'complex_modifications.rules', { set: [], makePath: true, throw: true });
+    return this;
   }
 }
 
@@ -198,6 +251,7 @@ function unless_lang(...langs) {
 module.exports = {
   RuleSet,
   Rule,
+  Config,
   key,
   click,
   set_var,
