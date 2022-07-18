@@ -1,6 +1,9 @@
 # KARABINERGE (karabiner + forge)
 Karabiner Elements complex modifications generator
 
+[![npm](https://img.shields.io/badge/dynamic/json?label=npm%0Apackage&query=%24%5B%27dist-tags%27%5D%5B%27latest%27%5D&url=https%3A%2F%2Fregistry.npmjs.org%2Fkarabinerge%2F)](https://www.npmjs.com/package/karabinerge)
+
+---
 
 ## What's this
 Karabinerge provides you some functions and classes that help you to **programmatically generate complex modifications** of Karabiner-Elements for your needs with **very short and readable codes**.
@@ -171,6 +174,10 @@ Generates:
   ]
 }
 ```
+
+## Real life examples
+
+- Mighty Thumb (https://github.com/amekusa/mighty-thumb/blob/master/karabiner-elements/mighty-thumb.js)
 
 ---
 Licensed under the MIT license.  
