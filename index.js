@@ -140,7 +140,10 @@ class Config {
     throw `no active profile`;
   }
   clearRules() {
-    dig(this.currentProfile, 'complex_modifications.rules', { set: [], makePath: true, throw: true });
+    return this.setRules([]);
+  }
+  setRules(rules) {
+    dig(this.currentProfile, 'complex_modifications.rules', { set: rules, makePath: true, throw: true });
     return this;
   }
 }
