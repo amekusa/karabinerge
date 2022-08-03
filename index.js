@@ -69,6 +69,8 @@ class RuleSet {
    */
   add(...args) {
     let rule = new Rule(...args);
+  add(rule) {
+    if (!(rule instanceof Rule)) rule = new Rule(rule);
     this.rules.push(rule);
     return rule;
   }
