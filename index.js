@@ -53,6 +53,9 @@ class Sanitizer {
 
 /**
  * A collection of one or more modification rules
+ *
+ * @example
+ * let rules = new RuleSet('My Rules');
  */
 class RuleSet {
   /**
@@ -63,12 +66,16 @@ class RuleSet {
     this.rules = [];
   }
   /**
-   * Creates a rule and adds it to this ruleset
-   * @param {string} desc - rule description
-   * @return {Rule} the created rule
+   * Adds an rule to this ruleset.
+   * If the provided argument is a string, a new instance of {@link Rule} will be created with the string as its description.
+   * If the provided argument is an instance of {@link Rule}, simply adds it to the collection
+   * @param {string|Rule} rule - rule description or an instance of {@link Rule}
+   * @return {Rule} added rule
+   * @example <caption>Adding a new rule with description</caption>
+   * let rule = rules.add('My 1st rule');
+   * @example <caption>Adding a rule instance</caption>
+   * let rule = rules.add(new Rule('My 1st rule'));
    */
-  add(...args) {
-    let rule = new Rule(...args);
   add(rule) {
     if (!(rule instanceof Rule)) rule = new Rule(rule);
     this.rules.push(rule);
@@ -77,6 +84,10 @@ class RuleSet {
   /**
    * Returns a plain object representation of this ruleset
    * @return {object} an object like: `{ title: ... , rules: ... }`
+   * @example
+   * let rules = new RuleSet('My Rules');
+   * let obj = rules.toJSON();
+   * console.log( obj.title ); // 'My Rules'
    */
   toJSON() {
     return {
@@ -108,6 +119,17 @@ class Rule {
    * Defines a `from-to` remap rule
    * @param {object} map - rule definition like: `{ from: ... , to: ... }`
    * @return {Rule} this
+   * @example <caption>Remap control + H to backspace</caption>
+   * let rule = new Rule('control + H to backspace')
+   *   .remap({
+   *     from: key('h', 'control'),
+   *     to:   key('delete_or_backspace')
+   *   });
+   * @example <caption>Multiple remap rules</caption>
+   * let rule = new Rule('Various Remaps')
+   *   .remap( ... )
+   *   .remap( ... )
+   *   .remap( ... );
    */
   remap(map) {
     if (!map.type) map = { type: 'basic', ...map };
@@ -119,6 +141,17 @@ class Rule {
    * Defines a condition
    * @param {object} cond - condition definition like: `{ type: 'variable_if', ... }`
    * @return {Rule} this
+   * @example <caption>Remap rules only for VSCode</caption>
+   * let rule = new Rule('VSCode Rules')
+   *   .cond(if_app('com.microsoft.VSCode'))
+   *   .remap( ... )
+   *   .remap( ... );
+   * @example <caption>Multiple conditions</caption>
+   * let rule = new Rule('VSCode Rules')
+   *   .cond(if_var('foo', 1))  // if variable 'foo' is 1
+   *   .cond(if_app('com.microsoft.VSCode'))
+   *   .remap( ... )
+   *   .remap( ... );
    */
   cond(cond) {
     this.conds.push(cond);
@@ -277,6 +310,12 @@ function key(code, mods = null, opts = null) {
 /**
  * Returns a `pointing_button` object
  * @param {string} btn - button name
+ * - `button1`
+ * - `button2`
+ * - `button3`
+ * - `left` (alias for `button1`)
+ * - `right` (alias for `button2`)
+ * - `middle` (alias for `button3`)
  * @return {object} an object like: `{ pointing_button: ... }`
  */
 function click(btn) {
