@@ -1,7 +1,7 @@
 {
   "name": "karabinerge",
   "version": "1.2.0",
-  "description": "Karabiner Elements complex modifications generator",
+  "description": "Karabiner-Elements complex modifications generator",
   "main": "index.js",
   "files": [
     "index.js"
@@ -20,10 +20,13 @@
     "karabiner",
     "karabiner-elements",
     "macos",
+    "osx",
     "utility",
+    "util",
     "json",
     "accessibility",
     "productivity",
+    "keyboard",
     "shortcut"
   ],
   "author": "amekusa (https://amekusa.com)",
