@@ -1,11 +1,17 @@
 {
   "name": "karabinerge",
   "version": "1.2.0",
-  "description": "Karabiner Elements complex modifications generator",
+  "description": "Karabiner-Elements complex modifications generator",
   "main": "index.js",
   "files": [
     "index.js"
   ],
+  "scripts": {
+    "docs": "npm run docs:gen && npm run docs:publish",
+    "docs:gen": "npm run docs:clean && jsdoc -c jsdoc.json && cd docs/karabinerge && ln -sfn $npm_package_version latest",
+    "docs:clean": "rm -rf docs/karabinerge/$npm_package_version",
+    "docs:publish": "git subtree push --prefix docs/karabinerge origin gh-pages"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/amekusa/karabinerge.git"
@@ -14,15 +20,22 @@
     "karabiner",
     "karabiner-elements",
     "macos",
+    "osx",
     "utility",
+    "util",
     "json",
     "accessibility",
     "productivity",
+    "keyboard",
     "shortcut"
   ],
   "author": "amekusa (https://amekusa.com)",
   "license": "MIT",
   "dependencies": {
     "obj-digger": "^1.1.1"
+  },
+  "devDependencies": {
+    "docolatte": "^2.10.2",
+    "jsdoc": "^3.6.11"
   }
 }

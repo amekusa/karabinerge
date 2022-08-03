@@ -1,0 +1,45 @@
+{
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "sourceType": "module",
+  "source": {
+    "include": ["index.js", "package.json", "README.md"],
+    "includePattern": ".js$"
+  },
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": false
+    },
+    "docolatte": {
+      "meta": {
+        "description": "Karabiner-Elements complex modifications generator",
+        "keywords": "keyboard, shortcut, karabiner, js, json",
+        "author": "Satoshi Soma (amekusa.com)"
+      },
+      "branding": {
+        "title": "KARABINERGE",
+        "link": "https://github.com/amekusa/karabinerge",
+        "icon": "github"
+      },
+      "footer": {
+        "copyright": "&copy; 2022 Satoshi Soma (<a href=\"https://amekusa.com\">amekusa.com</a>)"
+      }
+    }
+  },
+  "opts": {
+    "destination": "./docs/",
+    "template": "node_modules/docolatte",
+    "encoding": "utf8",
+    "recurse": true
+  },
+  "markdown": {
+    "hardwrap": true
+  }
+}
