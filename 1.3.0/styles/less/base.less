@@ -1,0 +1,123 @@
+:root, body {
+	.h(100%);
+	scroll-behavior: smooth;
+}
+
+:root {
+	.fs(@fs-base);
+}
+
+body {
+	.bare;
+	.fs(@fs-m; @lh-base);
+	font-family: @ff-body;
+	color: @c-black;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.25;
+}
+h2, h3, h4, h5, h6 {
+	.mv(2em; .5em);
+}
+h1 + *,
+h2 + *,
+h3 + *,
+h4 + *,
+h5 + *,
+h6 + * {
+	// margin-top: 0;
+}
+h1 {
+	.fs(@fs-xl);
+}
+h2, h3 {
+	.fs(@fs-l);
+}
+h4, h5, h6 {
+	.fs(@fs-m);
+}
+
+a {
+	color: @c-link;
+	text-decoration: none;
+
+	&:visited, &:active {
+		color: @c-link;
+	}
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+p {
+	&:first-child {
+		margin-top: 0;
+	}
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+small {
+	.fs(@fs-s);
+}
+
+sub, sup {
+	.fs(@fs-s);
+}
+
+tt, code, kbd, samp {
+	.fs(@fs-s);
+	font-family: @ff-code;
+}
+
+pre {
+	-moz-tab-size: 4;
+	tab-size: 4;
+}
+
+hr {
+	.mv(@gutter*2; @gutter);
+}
+
+ul {
+	.pl(1.5em);
+	list-style-type: none;
+
+	li {
+		.pos(relative);
+
+		// list bullet
+		&::before {
+			content: "";
+			display: block;
+			.square(.5em);
+			.pos-tl(.75em; -1em; absolute);
+			.bt(1px solid);
+			opacity: .5;
+		}
+	}
+}
+
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+th,
+thead > tr > td {
+	font-weight: bold;
+}
+td, th {
+	.p(.5em 1em);
+	vertical-align: text-top;
+	text-align: left;
+
+	&:first-child {
+		text-align: right;
+	}
+}
+
+figure {
+	.m(0); // cancel the browser style
+}
