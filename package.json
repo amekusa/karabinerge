@@ -1,6 +1,6 @@
 {
   "name": "karabinerge",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Karabiner-Elements complex modifications generator",
   "main": "index.js",
   "files": [
