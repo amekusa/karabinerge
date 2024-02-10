@@ -302,7 +302,7 @@ function arr(x) {
  * @return {object} an object like: `{ key_code: ... }`
  */
 function key(code, mods = null, opts = null) {
-	let r = { key_code: code };
+	let r = { key_code: code + '' };
 	if (mods) r.modifiers = mods;
 	return opts ? Object.assign(r, opts) : r;
 }
