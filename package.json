@@ -32,10 +32,10 @@
   "author": "amekusa (https://amekusa.com)",
   "license": "MIT",
   "dependencies": {
-    "obj-digger": "^1.1.1"
+    "obj-digger": "^1.2.0"
   },
   "devDependencies": {
-    "docolatte": "^2.10.2",
-    "jsdoc": "^3.6.11"
+    "docolatte": "^4.5.0",
+    "jsdoc": "^4.0.2"
   }
 }
