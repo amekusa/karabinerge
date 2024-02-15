@@ -4,7 +4,7 @@
   ],
   "sourceType": "module",
   "source": {
-    "include": ["index.js", "package.json", "README.md"],
+    "include": ["src", "package.json", "README.md"],
     "includePattern": ".js$"
   },
   "tags": {

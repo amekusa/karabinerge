@@ -1,45 +1,46 @@
-# KARABINERGE (karabiner + forge)
+# KARABINERGE
+[![NPM Version](https://img.shields.io/npm/v/karabinerge?style=for-the-badge&label=npm%20package)](https://www.npmjs.com/package/karabinerge) [![NPM License](https://img.shields.io/npm/l/karabinerge?style=for-the-badge)](https://github.com/amekusa/karabinerge/blob/trunk/LICENSE)
+
 Karabiner-Elements complex modifications generator
 
 [📘 Full Documentation](https://amekusa.github.io/karabinerge/latest/index.html)
 
-[![npm](https://img.shields.io/badge/dynamic/json?label=npm%0Apackage&query=%24%5B%27dist-tags%27%5D%5B%27latest%27%5D&url=https%3A%2F%2Fregistry.npmjs.org%2Fkarabinerge%2F)](https://www.npmjs.com/package/karabinerge)
 
-## What's this
-Karabinerge provides you some functions and classes that help you to **programmatically generate complex modifications** of Karabiner-Elements for your needs with **very short and readable codes**.
+## What this is
+Karabinerge provides functions and classes that help you to **programmatically generate complex modifications** of Karabiner-Elements.
 
 
 ## How to install
 ```sh
 npm i --save karabinerge
 
-# or install globally:
+# as global package
 npm i -g karabinerge
 ```
 
 ## How to use
 ```js
 // example.js
+import {RuleSet, key} from 'karabinerge'; // ES6
+const {RuleSet, key} = require('karabinerge'); // CJS
 
-with (require('karabinerge')) {
-  let rules = new RuleSet('My Rules');
+let rules = new RuleSet('My Rules');
 
-  rules.add('control + H to backspace')
-    .remap({
-      from: key('h', 'control'),
-      to:   key('delete_or_backspace')
-    });
+rules.add('control + H to backspace')
+	.remap({
+		from: key('h', 'control'),
+		to:   key('delete_or_backspace')
+	});
 
-  rules.out(); // stdout JSON
-}
+rules.out(); // output JSON to stdout
 ```
 
 ```sh
-# run
+# on terminal
 node example.js > example.json
 ```
 
-`example.json` :
+Result (`example.json`):
 ```json
 {
   "title": "My Rules",
@@ -70,34 +71,32 @@ node example.js > example.json
 ```
 
 ## More examples
-
 ```js
-with (require('karabinerge')) {
-  let rules = new RuleSet('My Rules');
+import {RuleSet, key} from 'karabinerge';
+let rules = new RuleSet('My Rules');
 
-  rules.add('command + H/J/K/L to arrow keys')
-    .remap({
-      from: key('h', 'command'),
-      to:   key('left_arrow')
-    })
-    .remap({
-      from: key('j', 'command'),
-      to:   key('down_arrow')
-    })
-    .remap({
-      from: key('k', 'command'),
-      to:   key('up_arrow')
-    })
-    .remap({
-      from: key('l', 'command'),
-      to:   key('right_arrow')
-    });
+rules.add('command + H/J/K/L to arrow keys')
+	.remap({
+		from: key('h', 'command'),
+		to:   key('left_arrow')
+	})
+	.remap({
+		from: key('j', 'command'),
+		to:   key('down_arrow')
+	})
+	.remap({
+		from: key('k', 'command'),
+		to:   key('up_arrow')
+	})
+	.remap({
+		from: key('l', 'command'),
+		to:   key('right_arrow')
+	});
 
-  rules.out();
-}
+rules.out();
 ```
-Generates:
 
+Result:
 ```json
 {
   "title": "My Rules",
@@ -176,14 +175,14 @@ Generates:
 ```
 
 ## Real life examples
-
-- Mighty Thumb [(github.com/amekusa/mighty-thumb/blob/master/karabiner-elements/mighty-thumb.js)](https://github.com/amekusa/mighty-thumb/blob/master/karabiner-elements/mighty-thumb.js)
+- [Keycomfort](https://github.com/amekusa/keycomfort)
+- [Mighty Thumb](https://github.com/amekusa/mighty-thumb/blob/master/karabiner-elements/mighty-thumb.js)
 
 
 ## More details
-Please see: [📘 Full Documentation](https://amekusa.github.io/karabinerge/latest/index.html)
+See: [📘 Full Documentation](https://amekusa.github.io/karabinerge/latest/index.html)
 
 
 ---
-Licensed under the MIT license.  
+Licensed under the MIT license.
 2022 &copy; Satoshi Soma ([amekusa.com](https://amekusa.com))
