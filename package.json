@@ -2,13 +2,22 @@
   "name": "karabinerge",
   "version": "1.4.0",
   "description": "Karabiner-Elements complex modifications generator",
+  "type": "module",
   "main": "index.js",
+  "exports": {
+    "import": "./dist/import/bundle.mjs",
+    "require": "./dist/require/bundle.cjs"
+  },
   "files": [
-    "index.js"
+    "dist"
   ],
   "scripts": {
+    "ready": "npm i && npm link @rollup/plugin-node-resolve",
+    "clean": "rm -rf ./dist",
+    "build": "rollup -c rollup.js",
+    "prod": "npm run clean; NODE_ENV=production npm run build",
     "docs": "npm run docs:gen && npm run docs:publish",
-    "docs:gen": "npm run docs:clean && jsdoc -c jsdoc.json && cd docs/karabinerge && ln -sfn $npm_package_version latest",
+    "docs:gen": "npm run docs:clean; jsdoc -c jsdoc.json && cd docs/karabinerge && ln -sfn $npm_package_version latest",
     "docs:clean": "rm -rf docs/karabinerge/$npm_package_version",
     "docs:publish": "git subtree push --prefix docs/karabinerge origin gh-pages"
   },
@@ -35,7 +44,6 @@
     "obj-digger": "^1.2.0"
   },
   "devDependencies": {
-    "docolatte": "^4.5.0",
-    "jsdoc": "^4.0.2"
+    "docolatte": "^4.5.0"
   }
 }
