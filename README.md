@@ -3,7 +3,9 @@
 
 Karabiner-Elements complex modifications generator
 
+<!--TRUNCATE:START-->
 [📘 Full Documentation](https://amekusa.github.io/karabinerge/latest/index.html)
+<!--TRUNCATE:END-->
 
 
 ## What this is
@@ -27,10 +29,10 @@ const {RuleSet, key} = require('karabinerge'); // CJS
 let rules = new RuleSet('My Rules');
 
 rules.add('control + H to backspace')
-	.remap({
-		from: key('h', 'control'),
-		to:   key('delete_or_backspace')
-	});
+  .remap({
+    from: key('h', 'control'),
+    to:   key('delete_or_backspace')
+  });
 
 rules.out(); // output JSON to stdout
 ```
@@ -76,22 +78,22 @@ import {RuleSet, key} from 'karabinerge';
 let rules = new RuleSet('My Rules');
 
 rules.add('command + H/J/K/L to arrow keys')
-	.remap({
-		from: key('h', 'command'),
-		to:   key('left_arrow')
-	})
-	.remap({
-		from: key('j', 'command'),
-		to:   key('down_arrow')
-	})
-	.remap({
-		from: key('k', 'command'),
-		to:   key('up_arrow')
-	})
-	.remap({
-		from: key('l', 'command'),
-		to:   key('right_arrow')
-	});
+  .remap({
+    from: key('h', 'command'),
+    to:   key('left_arrow')
+  })
+  .remap({
+    from: key('j', 'command'),
+    to:   key('down_arrow')
+  })
+  .remap({
+    from: key('k', 'command'),
+    to:   key('up_arrow')
+  })
+  .remap({
+    from: key('l', 'command'),
+    to:   key('right_arrow')
+  });
 
 rules.out();
 ```
@@ -178,7 +180,7 @@ Result:
 - [Keycomfort](https://github.com/amekusa/keycomfort)
 - [Mighty Thumb](https://github.com/amekusa/mighty-thumb/blob/master/karabiner-elements/mighty-thumb.js)
 
-
+<!--TRUNCATE:START-->
 ## More details
 See: [📘 Full Documentation](https://amekusa.github.io/karabinerge/latest/index.html)
 
@@ -186,3 +188,4 @@ See: [📘 Full Documentation](https://amekusa.github.io/karabinerge/latest/inde
 ---
 Licensed under the MIT license.
 2022 &copy; Satoshi Soma ([amekusa.com](https://amekusa.com))
+<!--TRUNCATE:END-->
