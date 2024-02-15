@@ -3,7 +3,6 @@
   "version": "1.4.0",
   "description": "Karabiner-Elements complex modifications generator",
   "type": "module",
-  "main": "index.js",
   "exports": {
     "import": "./dist/import/bundle.mjs",
     "require": "./dist/require/bundle.cjs"
