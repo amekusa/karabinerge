@@ -33,6 +33,7 @@ import Sanitizer from './Sanitizer.js';
 import Config from './Config.js';
 import Rule from './Rule.js';
 import RuleSet from './RuleSet.js';
+import {arr} from './Util.js';
 
 const remapSanitizer = new Sanitizer()
 	.addFilter('from.modifiers', prop => {
@@ -57,10 +58,6 @@ const remapSanitizer = new Sanitizer()
 	], prop => {
 		return arr(prop)
 	});
-
-function arr(x) {
-	return Array.isArray(x) ? x : [x];
-}
 
 /**
  * Returns a `key_code` object

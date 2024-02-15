@@ -1,4 +1,5 @@
 import dig from 'obj-digger';
+import {arr} from './Util.js';
 
 class Sanitizer {
 	constructor() {
