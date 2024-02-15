@@ -1,3 +1,5 @@
+import Rule from './Rule.js';
+
 /**
  * A collection of one or more modification rules
  *

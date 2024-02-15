@@ -1,5 +1,5 @@
 import Sanitizer from './Sanitizer.js';
-import {arr} from './Util.js';
+import {arr} from './util.js';
 
 /**
  * A complex modification rule

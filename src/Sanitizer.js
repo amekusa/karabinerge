@@ -1,5 +1,5 @@
 import dig from 'obj-digger';
-import {arr} from './Util.js';
+import {arr} from './util.js';
 
 /**
  * Object sanitizer
