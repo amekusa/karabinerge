@@ -1,3 +1,6 @@
+import Sanitizer from './Sanitizer.js';
+import {arr} from './Util.js';
+
 /**
  * A complex modification rule
  */
@@ -63,5 +66,30 @@ class Rule {
 		};
 	}
 }
+
+const remapSanitizer = new Sanitizer()
+	.addFilter('from.modifiers', prop => {
+		switch (typeof prop) {
+		case 'string':
+			return { mandatory: [prop] };
+		case 'object':
+			if (Array.isArray(prop)) return { mandatory: prop };
+		}
+		return prop;
+	})
+	.addFilter([
+		'from.modifiers.mandatory',
+		'from.modifiers.optional',
+		'to',
+		'to[].modifiers',
+		'to_if_alone',
+		'to_if_held_down',
+		'to_after_key_up',
+		'to_delayed_action.to_if_invoked',
+		'to_delayed_action.to_if_canceled'
+	], prop => {
+		return arr(prop);
+	});
+
 
 export default Rule;

@@ -29,35 +29,9 @@
  *
  */
 
-import Sanitizer from './Sanitizer.js';
 import Config from './Config.js';
 import Rule from './Rule.js';
 import RuleSet from './RuleSet.js';
-import {arr} from './Util.js';
-
-const remapSanitizer = new Sanitizer()
-	.addFilter('from.modifiers', prop => {
-		switch (typeof prop) {
-		case 'string':
-			return { mandatory: [prop] };
-		case 'object':
-			if (Array.isArray(prop)) return { mandatory: prop };
-		}
-		return prop;
-	})
-	.addFilter([
-		'from.modifiers.mandatory',
-		'from.modifiers.optional',
-		'to',
-		'to[].modifiers',
-		'to_if_alone',
-		'to_if_held_down',
-		'to_after_key_up',
-		'to_delayed_action.to_if_invoked',
-		'to_delayed_action.to_if_canceled'
-	], prop => {
-		return arr(prop)
-	});
 
 /**
  * Returns a `key_code` object

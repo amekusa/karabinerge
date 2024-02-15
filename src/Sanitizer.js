@@ -1,6 +1,9 @@
 import dig from 'obj-digger';
 import {arr} from './Util.js';
 
+/**
+ * Object sanitizer
+ */
 class Sanitizer {
 	constructor() {
 		this.filters = [];
