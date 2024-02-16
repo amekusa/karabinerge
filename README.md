@@ -9,7 +9,9 @@ Karabiner-Elements complex modifications generator
 
 
 ## What this is
-Karabinerge provides functions and classes that help you to **programmatically generate complex modifications** of Karabiner-Elements.
+Karabinerge provides useful functions and classes that help you to **programmatically generate complex modifications** of Karabiner-Elements in a simple and short syntax.
+
+Tired of tinkering with JSON by your hand? This is for you.
 
 
 ## How to install
@@ -37,8 +39,8 @@ rules.add('control + H to backspace')
 rules.out(); // output JSON to stdout
 ```
 
+Run it on terminal:
 ```sh
-# on terminal
 node example.js > example.json
 ```
 
@@ -186,6 +188,6 @@ See: [📘 Full Documentation](https://amekusa.github.io/karabinerge/latest/inde
 
 
 ---
-Licensed under the MIT license.
-2022 &copy; Satoshi Soma ([amekusa.com](https://amekusa.com))
+Karabinerge &copy; 2022 Satoshi Soma ([amekusa.com](https://amekusa.com))
+Licensed under the MIT license
 <!--TRUNCATE:END-->
