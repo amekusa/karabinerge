@@ -35,12 +35,55 @@ export function clean(x, recurse = 8) {
 		}
 		if (typeof x == 'object') {
 			let r = {};
-			for (let i in x) {
-				let I = clean(x[i], recurse - 1);
-				if (!isEmpty(I)) r[i] = I;
+			for (let k in x) {
+				let v = clean(x[k], recurse - 1);
+				if (!isEmpty(v)) r[k] = v;
 			}
 			return r;
 		}
 	}
 	return x;
+}
+
+/**
+ * Merges the 2nd object into the 1st object recursively (deep-merge). The 1st object will be modified.
+ * @param {object} x - The 1st object
+ * @param {object} y - The 2nd object
+ * @param {object} [opts] - Options
+ * @param {number} opts.recurse=8 - Recurstion limit. Negative number means unlimited
+ * @param {boolean|string} opts.mergeArrays - How to merge arrays
+ * - `true`: merge x with y
+ * - 'push': push y elements to x
+ * - 'concat': concat x and y
+ * - other: replace x with y
+ * @return {object} The 1st object
+ * @author amekusa
+ */
+export function merge(x, y, opts = {}) {
+	if (!('recurse' in opts)) opts.recurse = 8;
+	switch (Array.isArray(x) + Array.isArray(y)) {
+	 case 0: // no array
+		if (opts.recurse && x && y && typeof x == 'object' && typeof y == 'object') {
+			opts.recurse--;
+			for (let k in y) x[k] = merge(x[k], y[k], opts);
+			opts.recurse++;
+			return x;
+		}
+	 case 1: // 1 array
+		return y;
+	}
+	// 2 arrays
+	switch (opts.mergeArrays) {
+	 case true:
+		for (let i = 0; i < y.length; i++) {
+			if (!x.includes(y[i])) x.push(y[i]);
+		}
+		return x;
+	 case 'push':
+		x.push(...y);
+		return x;
+	 case 'concat':
+		return x.concat(y);
+	}
+	return y;
 }
