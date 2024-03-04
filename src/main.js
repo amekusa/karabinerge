@@ -29,6 +29,7 @@
  *
  */
 
+import {arr, merge, isEmpty} from '@amekusa/util.js';
 import RuleSet from './RuleSet.js';
 import Rule from './Rule.js';
 import Config from './Config.js';
@@ -47,9 +48,41 @@ export {
  * @return {object} an object like: `{ key_code: ... }`
  */
 export function key(code, mods = null, opts = null) {
-	let r = { key_code: code + '' };
-	if (mods) r.modifiers = mods;
-	return opts ? Object.assign(r, opts) : r;
+	let _mods = {
+		mandatory: [],
+		optional: []
+	};
+	function addModifier(mod) {
+		mod = mod.trim();
+		let m = mod.match(/^\((.+?)\)$/);
+		if (m) _mods.optional.push(m[1]);
+		else _mods.mandatory.push(mod);
+	}
+
+	// parse 'modifier + keycode' expression
+	code = (code + '').split('+');
+	for (let i = 0; i < code.length - 1; i++) addModifier(code[i]);
+	code = code[code.length - 1].trim();
+
+	// parse modifiers
+	if (mods) {
+		switch (typeof mods) {
+		case 'string':
+			mods.split('+').forEach(addModifier);
+			break;
+		case 'object':
+			if (Array.isArray(mods)) mods.forEach(addModifier);
+			else {
+				if (mods.mandatory) _mods.mandatory = _mods.mandatory.concat(arr(mods.mandatory));
+				if (mods.optional) _mods.optional = _mods.optional.concat(arr(mods.optional));
+			}
+		}
+	}
+	let r = {
+		key_code: code,
+		modifiers: isEmpty(_mods.optional) ? _mods.mandatory : _mods
+	};
+	return opts ? merge(r, opts, {mergeArrays: true}) : r;
 }
 
 /**
