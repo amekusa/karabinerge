@@ -75,7 +75,7 @@ const remapSanitizer = new Sanitizer()
 	.addFilter('from.modifiers', prop => {
 		if (Array.isArray(prop)) return { mandatory: prop };
 		switch (typeof prop) {
-		 case 'string':
+		case 'string':
 			return { mandatory: [prop] };
 		}
 		return prop;
