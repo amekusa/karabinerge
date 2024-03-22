@@ -1,5 +1,5 @@
+import {arr} from '@amekusa/util.js';
 import dig from 'obj-digger';
-import {arr} from './util.js';
 
 /**
  * Object sanitizer
@@ -21,3 +21,4 @@ class Sanitizer {
 }
 
 export default Sanitizer;
+

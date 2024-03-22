@@ -1,5 +1,5 @@
+import {arr, clean, isEmpty} from '@amekusa/util.js';
 import Sanitizer from './Sanitizer.js';
-import {arr} from './util.js';
 
 /**
  * A complex modification rule
@@ -75,7 +75,7 @@ const remapSanitizer = new Sanitizer()
 	.addFilter('from.modifiers', prop => {
 		if (Array.isArray(prop)) return { mandatory: prop };
 		switch (typeof prop) {
-		case 'string':
+		 case 'string':
 			return { mandatory: [prop] };
 		}
 		return prop;
@@ -93,6 +93,5 @@ const remapSanitizer = new Sanitizer()
 	], prop => {
 		return arr(prop);
 	});
-
 
 export default Rule;
