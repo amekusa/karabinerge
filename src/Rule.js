@@ -73,11 +73,10 @@ class Rule {
 
 const remapSanitizer = new Sanitizer()
 	.addFilter('from.modifiers', prop => {
+		if (Array.isArray(prop)) return { mandatory: prop };
 		switch (typeof prop) {
 		case 'string':
 			return { mandatory: [prop] };
-		case 'object':
-			if (Array.isArray(prop)) return { mandatory: prop };
 		}
 		return prop;
 	})
