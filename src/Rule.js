@@ -30,9 +30,11 @@ class Rule {
 	 *   .remap( ... );
 	 */
 	remap(map) {
-		if (!map.type) map = { type: 'basic', ...map };
+		if (!map.type) map.type = 'basic';
 		if (this.conds.length) map = Object.assign(map, { conditions: this.conds });
-		this.remaps.push(remapSanitizer.sanitize(map));
+		map = clean(remapSanitizer.sanitize(map));
+		if (isEmpty(map)) console.warn(`Rule.remap: empty argument`);
+		else this.remaps.push(map);
 		return this;
 	}
 	/**
@@ -52,7 +54,9 @@ class Rule {
 	 *   .remap( ... );
 	 */
 	cond(cond) {
-		this.conds.push(cond);
+		cond = clean(cond);
+		if (isEmpty(cond)) console.warn(`Rule.cond: empty argument`);
+		else this.conds.push(cond);
 		return this;
 	}
 	/**
