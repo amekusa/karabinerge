@@ -29,7 +29,8 @@
         "icon": "github"
       },
       "footer": {
-        "copyright": "&copy; 2022 Satoshi Soma (<a href=\"https://amekusa.com\">amekusa.com</a>)"
+        "copyright": "Karabinerge &copy; 2022 Satoshi Soma (<a href=\"https://amekusa.com\">amekusa.com</a>)",
+        "license": "Licensed under the MIT License"
       }
     }
   },
