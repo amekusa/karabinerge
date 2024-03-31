@@ -41,20 +41,39 @@ export {
 };
 
 /**
- * Returns an object with `key_code` property, which can be passed to {@link Rule#remap} as `from` or `to` properties.
- * @param {string} code - key code
+ * Returns an object with `key_code` property,
+ * which can be passed to {@link Rule#remap} as `from` or `to` properties.
+ * @param {string|string[]|array[]} code - key code(s)
  * @param {string|object|string[]} mods - modifiers
  * @param {object} [opts] - optional properties
  * @return {object} an object like: `{ key_code: ... }`
  */
 export function key(code, mods = null, opts = null) {
+	if (Array.isArray(code)) {
+		let r = [];
+		for (let i = 0; i < code.length; i++) {
+			let I = code[i];
+			if (Array.isArray(I)) {
+				r.push(key(
+					I[0],
+					I.length > 1 ? I[1] : mods,
+					I.length > 2 ? I[2] : opts
+				));
+				continue;
+			}
+			r.push(key(I, mods, opts));
+		}
+		return r;
+	}
+
 	let _mods = {
 		mandatory: [],
 		optional: []
 	};
+
 	function addModifier(mod) {
 		mod = mod.trim();
-		let m = mod.match(/^\((.+?)\)$/);
+		let m = mod.match(/^\((.+?)\)$/); // is '(optional-key)' ?
 		if (m) _mods.optional.push(m[1]);
 		else _mods.mandatory.push(mod);
 	}
