@@ -97,10 +97,14 @@ export function key(code, mods = null, opts = null) {
 			}
 		}
 	}
-	let r = {
-		key_code: code,
-		modifiers: isEmpty(_mods.optional) ? _mods.mandatory : _mods
-	};
+
+	// format & return
+	let r = {key_code: code};
+	if (!isEmpty(_mods.optional)) r.modifiers = {optional: _mods.optional};
+	if (!isEmpty(_mods.mandatory)) {
+		if (r.modifiers) r.modifiers.mandatory = _mods.mandatory;
+		else r.modifiers = _mods.mandatory;
+	}
 	return opts ? merge(r, opts, {mergeArrays: true}) : r;
 }
 
