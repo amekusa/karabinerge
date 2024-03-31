@@ -83,114 +83,6 @@
     
 
     
-    <h4 class="name" id="arr"><span class="attributes"></span>arr<span class="signature">(x)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Coerce the given value into an array.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<div class="table-wrap">
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name">
-                    <code>x</code>
-                </td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">any</span>
-
-            
-            </td>
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-</div>
-
-
-
-
-
-
-<dl class="details"></dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-<div class="param-desc">
-    <p>any[]</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="click"><span class="attributes"></span>click<span class="signature">(btn)</span><span class="type-signature"> &rarr; <span class="type">object</span></span></h4>
     
 
@@ -199,7 +91,7 @@
 
 
 <div class="description">
-    <p>Returns a <code>pointing_button</code> object</p>
+    <p>Returns an object with <code>pointing_button</code> property, which can be passed to <a href="Rule.html#remap"><code>Rule#remap</code></a> as <code>from</code> or <code>to</code> properties.</p>
 </div>
 
 
@@ -326,7 +218,7 @@
 
 
 <div class="description">
-    <p>Returns a <code>frontmost_application_if</code> condition object</p>
+    <p>Returns an object with <code>type: 'frontmost_application_if'</code> property, which can be passed to <a href="Rule.html#cond"><code>Rule#cond</code></a> as a condition.</p>
 </div>
 
 
@@ -445,7 +337,7 @@
 
 
 <div class="description">
-    <p>Returns a <code>input_source_if</code> condition object</p>
+    <p>Returns an object with <code>type: 'input_source_if'</code> property, which can be passed to <a href="Rule.html#cond"><code>Rule#cond</code></a> as a condition.</p>
 </div>
 
 
@@ -564,7 +456,7 @@
 
 
 <div class="description">
-    <p>Returns a <code>variable_if</code> condition object</p>
+    <p>Returns an object with <code>type: 'variable_if'</code> property, which can be passed to <a href="Rule.html#cond"><code>Rule#cond</code></a> as a condition.</p>
 </div>
 
 
@@ -705,7 +597,8 @@
 
 
 <div class="description">
-    <p>Returns a <code>key_code</code> object</p>
+    <p>Returns an object with <code>key_code</code> property,<br>
+which can be passed to <a href="Rule.html#remap"><code>Rule#remap</code></a> as <code>from</code> or <code>to</code> properties.</p>
 </div>
 
 
@@ -748,14 +641,14 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<ul><li><span class="param-type">string</span></li><li><span class="param-type">string[]</span></li><li><span class="param-type">array[]</span></li></ul>
 
             
             </td>
 
             
 
-            <td class="description last"><p>key code</p></td>
+            <td class="description last"><p>key code(s)</p></td>
         </tr>
 
     
@@ -868,7 +761,7 @@
 
 
 <div class="description">
-    <p>Returns a <code>set_variable</code> object</p>
+    <p>Returns an object with <code>set_variable</code> property, which can be passed to <a href="Rule.html#remap"><code>Rule#remap</code></a> as <code>to</code> property.</p>
 </div>
 
 
@@ -1031,7 +924,7 @@
 
 
 <div class="description">
-    <p>Returns a <code>frontmost_application_unless</code> condition object</p>
+    <p>Returns an object with <code>type: 'frontmost_application_unless'</code> property, which can be passed to <a href="Rule.html#cond"><code>Rule#cond</code></a> as a condition.</p>
 </div>
 
 
@@ -1081,7 +974,7 @@
 
             
 
-            <td class="description last"><p>application ID</p></td>
+            <td class="description last"><p>application id</p></td>
         </tr>
 
     
@@ -1150,7 +1043,7 @@
 
 
 <div class="description">
-    <p>Returns a <code>input_source_unless</code> condition object</p>
+    <p>Returns an object with <code>type: 'input_source_unless'</code> property, which can be passed to <a href="Rule.html#cond"><code>Rule#cond</code></a> as a condition.</p>
 </div>
 
 
@@ -1269,7 +1162,7 @@
 
 
 <div class="description">
-    <p>Returns a <code>variable_unless</code> condition object</p>
+    <p>Returns an object with <code>type: 'variable_unless'</code> property, which can be passed to <a href="Rule.html#cond"><code>Rule#cond</code></a> as a condition.</p>
 </div>
 
 
@@ -1413,15 +1306,17 @@
             
             <div class="lines">
                 
-                <p class="copyright">&copy; 2022 Satoshi Soma (<a href="https://amekusa.com">amekusa.com</a>)</p>
+                <p class="copyright">Karabinerge &copy; 2022 Satoshi Soma (<a href="https://amekusa.com">amekusa.com</a>)</p>
                 
+                
+                <p class="license">Licensed under the MIT License</p>
                 
                 
                 <p class="generator">
                     Documentation generated by <a rel="external" href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a><wbr>
                     using <a rel="external" href="https://github.com/amekusa/docolatte">Docolatte</a> theme
                     
-                    <wbr>on <time datetime="2024-02-15T21:51:18.478Z">Thu, 15 Feb 2024 21:51:18 GMT</time>
+                    <wbr>on <time datetime="2024-03-31T10:35:09.544Z">Sun, 31 Mar 2024 10:35:09 GMT</time>
                     
                 </p>
                 
@@ -1461,13 +1356,13 @@
 </div>
 
             <div class="toc">
-                <nav class="menu"><h3>Classes</h3><ul class="wbr"><li class="has-child"><a href="Config.html">Config</a><ul class="variables has-icons wbr"><li><a href="Config.html#currentProfile">current<wbr>Profile</a></li></ul><ul class="functions has-icons wbr"><li><a href="Config.html#backup">backup</a></li><li><a href="Config.html#clearRules">clear<wbr>Rules</a></li><li><a href="Config.html#deleteBackup">delete<wbr>Backup</a></li><li><a href="Config.html#load">load</a></li><li><a href="Config.html#loadBackup">load<wbr>Backup</a></li><li><a href="Config.html#save">save</a></li><li><a href="Config.html#setFile">set<wbr>File</a></li><li><a href="Config.html#setRules">set<wbr>Rules</a></li></ul></li><li class="has-child"><a href="Rule.html">Rule</a><ul class="functions has-icons wbr"><li><a href="Rule.html#cond">cond</a></li><li><a href="Rule.html#remap">remap</a></li><li><a href="Rule.html#toJSON">to<wbr>JSON</a></li></ul></li><li class="has-child"><a href="RuleSet.html">Rule<wbr>Set</a><ul class="functions has-icons wbr"><li><a href="RuleSet.html#add">add</a></li><li><a href="RuleSet.html#out">out</a></li><li><a href="RuleSet.html#toJSON">to<wbr>JSON</a></li></ul></li><li><a href="Sanitizer.html">Sanitizer</a></li></ul></nav><nav class="menu"><h3>Global</h3><ul class="wbr"><li><a href="global.html#arr">arr</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#if_app">if<wbr>_app</a></li><li><a href="global.html#if_lang">if<wbr>_lang</a></li><li><a href="global.html#if_var">if<wbr>_var</a></li><li><a href="global.html#key">key</a></li><li><a href="global.html#set_var">set<wbr>_var</a></li><li><a href="global.html#unless_app">unless<wbr>_app</a></li><li><a href="global.html#unless_lang">unless<wbr>_lang</a></li><li><a href="global.html#unless_var">unless<wbr>_var</a></li><li><a href="global.html">See<wbr> All</a></li></ul></nav>
+                <nav class="menu"><h3>Classes</h3><ul class="wbr"><li class="has-child"><a href="Config.html">Config</a><ul class="variables has-icons wbr"><li><a href="Config.html#currentProfile">current<wbr>Profile</a></li></ul><ul class="functions has-icons wbr"><li><a href="Config.html#backup">backup</a></li><li><a href="Config.html#clearRules">clear<wbr>Rules</a></li><li><a href="Config.html#deleteBackup">delete<wbr>Backup</a></li><li><a href="Config.html#load">load</a></li><li><a href="Config.html#loadBackup">load<wbr>Backup</a></li><li><a href="Config.html#save">save</a></li><li><a href="Config.html#setFile">set<wbr>File</a></li><li><a href="Config.html#setRules">set<wbr>Rules</a></li></ul></li><li class="has-child"><a href="Rule.html">Rule</a><ul class="functions has-icons wbr"><li><a href="Rule.html#cond">cond</a></li><li><a href="Rule.html#remap">remap</a></li><li><a href="Rule.html#toJSON">to<wbr>JSON</a></li></ul></li><li class="has-child"><a href="RuleSet.html">Rule<wbr>Set</a><ul class="functions has-icons wbr"><li><a href="RuleSet.html#add">add</a></li><li><a href="RuleSet.html#out">out</a></li><li><a href="RuleSet.html#toJSON">to<wbr>JSON</a></li></ul></li><li><a href="Sanitizer.html">Sanitizer</a></li></ul></nav><nav class="menu"><h3>Global</h3><ul class="wbr"><li><a href="global.html#click">click</a></li><li><a href="global.html#if_app">if<wbr>_app</a></li><li><a href="global.html#if_lang">if<wbr>_lang</a></li><li><a href="global.html#if_var">if<wbr>_var</a></li><li><a href="global.html#key">key</a></li><li><a href="global.html#set_var">set<wbr>_var</a></li><li><a href="global.html#unless_app">unless<wbr>_app</a></li><li><a href="global.html#unless_lang">unless<wbr>_lang</a></li><li><a href="global.html#unless_var">unless<wbr>_var</a></li><li><a href="global.html">See<wbr> All</a></li></ul></nav>
             </div>
         </div>
     </div>
 </div>
 
-<script id="docolatte-search-items" type="application/json">[{"$":["Config.html","Config"],"a":"Config","b":"Config","c":"Config.js","d":"User configuration of Karabiner-Elements"},{"$":["Config.html#currentProfile","Config#currentProfile"],"a":"currentProfile","b":"Config#currentProfile","c":"Config.js","e":"The current profile object"},{"$":["Config.html#backup","Config#backup"],"a":"backup","b":"Config#backup","c":"Config.js","e":"Creates a backup of the config file with .bak extension in the same directory as the original file.  If an old backup exists, it will be overwritten"},{"$":["Config.html#clearRules","Config#clearRules"],"a":"clearRules","b":"Config#clearRules","c":"Config.js","e":"Clears all the rules in the current profile"},{"$":["Config.html#deleteBackup","Config#deleteBackup"],"a":"deleteBackup","b":"Config#deleteBackup","c":"Config.js","e":"Deletes a backup file"},{"$":["Config.html#load","Config#load"],"a":"load","b":"Config#load","c":"Config.js","e":"Reads data from the config file"},{"$":["Config.html#loadBackup","Config#loadBackup"],"a":"loadBackup","b":"Config#loadBackup","c":"Config.js","e":"Restores data from a backup file"},{"$":["Config.html#save","Config#save"],"a":"save","b":"Config#save","c":"Config.js","e":"Writes the current data on the config file"},{"$":["Config.html#setFile","Config#setFile"],"a":"setFile","b":"Config#setFile","c":"Config.js","e":"Sets the config file path"},{"$":["Config.html#setRules","Config#setRules"],"a":"setRules","b":"Config#setRules","c":"Config.js","e":"Sets the provided rules to the current profile"},{"$":["Rule.html","Rule"],"a":"Rule","b":"Rule","c":"Rule.js","d":"A complex modification rule"},{"$":["Rule.html#cond","Rule#cond"],"a":"cond","b":"Rule#cond","c":"Rule.js","e":"Defines a condition"},{"$":["Rule.html#remap","Rule#remap"],"a":"remap","b":"Rule#remap","c":"Rule.js","e":"Defines a from-to remap rule"},{"$":["Rule.html#toJSON","Rule#toJSON"],"a":"toJSON","b":"Rule#toJSON","c":"Rule.js","e":"Returns a plain object representation of this rule"},{"$":["RuleSet.html","RuleSet"],"a":"RuleSet","b":"RuleSet","c":"RuleSet.js","d":"A collection of one or more modification rules"},{"$":["RuleSet.html#add","RuleSet#add"],"a":"add","b":"RuleSet#add","c":"RuleSet.js","e":"Adds an rule to this ruleset.  If the provided argument is a string, a new instance of {@link Rule} will be created with the string as its description.  If the provided argument is an instance of {@link Rule}, simply adds it to the collection"},{"$":["RuleSet.html#out","RuleSet#out"],"a":"out","b":"RuleSet#out","c":"RuleSet.js","e":"Outputs JSON representation of the whole rule set to STDOUT"},{"$":["RuleSet.html#toJSON","RuleSet#toJSON"],"a":"toJSON","b":"RuleSet#toJSON","c":"RuleSet.js","e":"Returns a plain object representation of this ruleset"},{"$":["Sanitizer.html","Sanitizer"],"a":"Sanitizer","b":"Sanitizer","c":"Sanitizer.js","d":"Object sanitizer"},{"$":["global.html#arr","arr"],"a":"arr","b":"arr","c":"util.js","e":"Coerce the given value into an array."},{"$":["global.html#click","click"],"a":"click","b":"click","c":"main.js","e":"Returns a pointing_button object"},{"$":["global.html#if_app","if_app"],"a":"if_app","b":"if_app","c":"main.js","e":"Returns a frontmost_application_if condition object"},{"$":["global.html#if_lang","if_lang"],"a":"if_lang","b":"if_lang","c":"main.js","e":"Returns a input_source_if condition object"},{"$":["global.html#if_var","if_var"],"a":"if_var","b":"if_var","c":"main.js","e":"Returns a variable_if condition object"},{"$":["global.html#key","key"],"a":"key","b":"key","c":"main.js","e":"Returns a key_code object"},{"$":["global.html#set_var","set_var"],"a":"set_var","b":"set_var","c":"main.js","e":"Returns a set_variable object"},{"$":["global.html#unless_app","unless_app"],"a":"unless_app","b":"unless_app","c":"main.js","e":"Returns a frontmost_application_unless condition object"},{"$":["global.html#unless_lang","unless_lang"],"a":"unless_lang","b":"unless_lang","c":"main.js","e":"Returns a input_source_unless condition object"},{"$":["global.html#unless_var","unless_var"],"a":"unless_var","b":"unless_var","c":"main.js","e":"Returns a variable_unless condition object"},{"$":["global.html","Global"],"b":"global"}]</script><script id="docolatte-search-index" type="application/json">{"keys":[{"path":["a"],"id":"a","weight":10,"src":"a"},{"path":["b"],"id":"b","weight":9,"src":"b"},{"path":["c"],"id":"c","weight":6,"src":"c"},{"path":["d"],"id":"d","weight":2,"src":"d"},{"path":["e"],"id":"e","weight":2,"src":"e"}],"records":[{"i":0,"$":{"0":{"v":"Config","n":1},"1":{"v":"Config","n":1},"2":{"v":"Config.js","n":1},"3":{"v":"User configuration of Karabiner-Elements","n":0.5}}},{"i":1,"$":{"0":{"v":"currentProfile","n":1},"1":{"v":"Config#currentProfile","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"The current profile object","n":0.5}}},{"i":2,"$":{"0":{"v":"backup","n":1},"1":{"v":"Config#backup","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Creates a backup of the config file with .bak extension in the same directory as the original file.  If an old backup exists, it will be overwritten","n":0.192}}},{"i":3,"$":{"0":{"v":"clearRules","n":1},"1":{"v":"Config#clearRules","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Clears all the rules in the current profile","n":0.354}}},{"i":4,"$":{"0":{"v":"deleteBackup","n":1},"1":{"v":"Config#deleteBackup","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Deletes a backup file","n":0.5}}},{"i":5,"$":{"0":{"v":"load","n":1},"1":{"v":"Config#load","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Reads data from the config file","n":0.408}}},{"i":6,"$":{"0":{"v":"loadBackup","n":1},"1":{"v":"Config#loadBackup","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Restores data from a backup file","n":0.408}}},{"i":7,"$":{"0":{"v":"save","n":1},"1":{"v":"Config#save","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Writes the current data on the config file","n":0.354}}},{"i":8,"$":{"0":{"v":"setFile","n":1},"1":{"v":"Config#setFile","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Sets the config file path","n":0.447}}},{"i":9,"$":{"0":{"v":"setRules","n":1},"1":{"v":"Config#setRules","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Sets the provided rules to the current profile","n":0.354}}},{"i":10,"$":{"0":{"v":"Rule","n":1},"1":{"v":"Rule","n":1},"2":{"v":"Rule.js","n":1},"3":{"v":"A complex modification rule","n":0.5}}},{"i":11,"$":{"0":{"v":"cond","n":1},"1":{"v":"Rule#cond","n":1},"2":{"v":"Rule.js","n":1},"4":{"v":"Defines a condition","n":0.577}}},{"i":12,"$":{"0":{"v":"remap","n":1},"1":{"v":"Rule#remap","n":1},"2":{"v":"Rule.js","n":1},"4":{"v":"Defines a from-to remap rule","n":0.447}}},{"i":13,"$":{"0":{"v":"toJSON","n":1},"1":{"v":"Rule#toJSON","n":1},"2":{"v":"Rule.js","n":1},"4":{"v":"Returns a plain object representation of this rule","n":0.354}}},{"i":14,"$":{"0":{"v":"RuleSet","n":1},"1":{"v":"RuleSet","n":1},"2":{"v":"RuleSet.js","n":1},"3":{"v":"A collection of one or more modification rules","n":0.354}}},{"i":15,"$":{"0":{"v":"add","n":1},"1":{"v":"RuleSet#add","n":1},"2":{"v":"RuleSet.js","n":1},"4":{"v":"Adds an rule to this ruleset.  If the provided argument is a string, a new instance of {@link Rule} will be created with the string as its description.  If the provided argument is an instance of {@link Rule}, simply adds it to the collection","n":0.151}}},{"i":16,"$":{"0":{"v":"out","n":1},"1":{"v":"RuleSet#out","n":1},"2":{"v":"RuleSet.js","n":1},"4":{"v":"Outputs JSON representation of the whole rule set to STDOUT","n":0.316}}},{"i":17,"$":{"0":{"v":"toJSON","n":1},"1":{"v":"RuleSet#toJSON","n":1},"2":{"v":"RuleSet.js","n":1},"4":{"v":"Returns a plain object representation of this ruleset","n":0.354}}},{"i":18,"$":{"0":{"v":"Sanitizer","n":1},"1":{"v":"Sanitizer","n":1},"2":{"v":"Sanitizer.js","n":1},"3":{"v":"Object sanitizer","n":0.707}}},{"i":19,"$":{"0":{"v":"arr","n":1},"1":{"v":"arr","n":1},"2":{"v":"util.js","n":1},"4":{"v":"Coerce the given value into an array.","n":0.378}}},{"i":20,"$":{"0":{"v":"click","n":1},"1":{"v":"click","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns a pointing_button object","n":0.5}}},{"i":21,"$":{"0":{"v":"if_app","n":1},"1":{"v":"if_app","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns a frontmost_application_if condition object","n":0.447}}},{"i":22,"$":{"0":{"v":"if_lang","n":1},"1":{"v":"if_lang","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns a input_source_if condition object","n":0.447}}},{"i":23,"$":{"0":{"v":"if_var","n":1},"1":{"v":"if_var","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns a variable_if condition object","n":0.447}}},{"i":24,"$":{"0":{"v":"key","n":1},"1":{"v":"key","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns a key_code object","n":0.5}}},{"i":25,"$":{"0":{"v":"set_var","n":1},"1":{"v":"set_var","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns a set_variable object","n":0.5}}},{"i":26,"$":{"0":{"v":"unless_app","n":1},"1":{"v":"unless_app","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns a frontmost_application_unless condition object","n":0.447}}},{"i":27,"$":{"0":{"v":"unless_lang","n":1},"1":{"v":"unless_lang","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns a input_source_unless condition object","n":0.447}}},{"i":28,"$":{"0":{"v":"unless_var","n":1},"1":{"v":"unless_var","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns a variable_unless condition object","n":0.447}}},{"i":29,"$":{"1":{"v":"global","n":1}}}]}</script><script id="docolatte-search-options" type="application/json">{"keys":[{"name":"a","weight":10},{"name":"b","weight":9},{"name":"c","weight":6},{"name":"d","weight":2},{"name":"e","weight":2}]}</script>
+<script id="docolatte-search-items" type="application/json">[{"$":["Config.html","Config"],"a":"Config","b":"Config","c":"Config.js","d":"User configuration of Karabiner-Elements"},{"$":["Config.html#currentProfile","Config#currentProfile"],"a":"currentProfile","b":"Config#currentProfile","c":"Config.js","e":"The current profile object"},{"$":["Config.html#backup","Config#backup"],"a":"backup","b":"Config#backup","c":"Config.js","e":"Creates a backup of the config file with .bak extension in the same directory as the original file.  If an old backup exists, it will be overwritten"},{"$":["Config.html#clearRules","Config#clearRules"],"a":"clearRules","b":"Config#clearRules","c":"Config.js","e":"Clears all the rules in the current profile"},{"$":["Config.html#deleteBackup","Config#deleteBackup"],"a":"deleteBackup","b":"Config#deleteBackup","c":"Config.js","e":"Deletes a backup file"},{"$":["Config.html#load","Config#load"],"a":"load","b":"Config#load","c":"Config.js","e":"Reads data from the config file"},{"$":["Config.html#loadBackup","Config#loadBackup"],"a":"loadBackup","b":"Config#loadBackup","c":"Config.js","e":"Restores data from a backup file"},{"$":["Config.html#save","Config#save"],"a":"save","b":"Config#save","c":"Config.js","e":"Writes the current data on the config file"},{"$":["Config.html#setFile","Config#setFile"],"a":"setFile","b":"Config#setFile","c":"Config.js","e":"Sets the config file path"},{"$":["Config.html#setRules","Config#setRules"],"a":"setRules","b":"Config#setRules","c":"Config.js","e":"Sets the provided rules to the current profile"},{"$":["Rule.html","Rule"],"a":"Rule","b":"Rule","c":"Rule.js","d":"A complex modification rule"},{"$":["Rule.html#cond","Rule#cond"],"a":"cond","b":"Rule#cond","c":"Rule.js","e":"Defines a condition"},{"$":["Rule.html#remap","Rule#remap"],"a":"remap","b":"Rule#remap","c":"Rule.js","e":"Defines a from-to remap rule"},{"$":["Rule.html#toJSON","Rule#toJSON"],"a":"toJSON","b":"Rule#toJSON","c":"Rule.js","e":"Returns a plain object representation of this rule"},{"$":["RuleSet.html","RuleSet"],"a":"RuleSet","b":"RuleSet","c":"RuleSet.js","d":"A collection of one or more modification rules"},{"$":["RuleSet.html#add","RuleSet#add"],"a":"add","b":"RuleSet#add","c":"RuleSet.js","e":"Adds an rule to this ruleset.  If the provided argument is a string, a new instance of {@link Rule} will be created with the string as its description.  If the provided argument is an instance of {@link Rule}, simply adds it to the collection"},{"$":["RuleSet.html#out","RuleSet#out"],"a":"out","b":"RuleSet#out","c":"RuleSet.js","e":"Outputs JSON representation of the whole rule set to STDOUT"},{"$":["RuleSet.html#toJSON","RuleSet#toJSON"],"a":"toJSON","b":"RuleSet#toJSON","c":"RuleSet.js","e":"Returns a plain object representation of this ruleset"},{"$":["Sanitizer.html","Sanitizer"],"a":"Sanitizer","b":"Sanitizer","c":"Sanitizer.js","d":"Object sanitizer"},{"$":["global.html#click","click"],"a":"click","b":"click","c":"main.js","e":"Returns an object with pointing_button property, which can be passed to {@link Rule#remap} as from or to properties."},{"$":["global.html#if_app","if_app"],"a":"if_app","b":"if_app","c":"main.js","e":"Returns an object with type: 'frontmost_application_if' property, which can be passed to {@link Rule#cond} as a condition."},{"$":["global.html#if_lang","if_lang"],"a":"if_lang","b":"if_lang","c":"main.js","e":"Returns an object with type: 'input_source_if' property, which can be passed to {@link Rule#cond} as a condition."},{"$":["global.html#if_var","if_var"],"a":"if_var","b":"if_var","c":"main.js","e":"Returns an object with type: 'variable_if' property, which can be passed to {@link Rule#cond} as a condition."},{"$":["global.html#key","key"],"a":"key","b":"key","c":"main.js","e":"Returns an object with key_code property,  which can be passed to {@link Rule#remap} as from or to properties."},{"$":["global.html#set_var","set_var"],"a":"set_var","b":"set_var","c":"main.js","e":"Returns an object with set_variable property, which can be passed to {@link Rule#remap} as to property."},{"$":["global.html#unless_app","unless_app"],"a":"unless_app","b":"unless_app","c":"main.js","e":"Returns an object with type: 'frontmost_application_unless' property, which can be passed to {@link Rule#cond} as a condition."},{"$":["global.html#unless_lang","unless_lang"],"a":"unless_lang","b":"unless_lang","c":"main.js","e":"Returns an object with type: 'input_source_unless' property, which can be passed to {@link Rule#cond} as a condition."},{"$":["global.html#unless_var","unless_var"],"a":"unless_var","b":"unless_var","c":"main.js","e":"Returns an object with type: 'variable_unless' property, which can be passed to {@link Rule#cond} as a condition."},{"$":["global.html","Global"],"b":"global"}]</script><script id="docolatte-search-index" type="application/json">{"keys":[{"path":["a"],"id":"a","weight":10,"src":"a"},{"path":["b"],"id":"b","weight":9,"src":"b"},{"path":["c"],"id":"c","weight":6,"src":"c"},{"path":["d"],"id":"d","weight":2,"src":"d"},{"path":["e"],"id":"e","weight":2,"src":"e"}],"records":[{"i":0,"$":{"0":{"v":"Config","n":1},"1":{"v":"Config","n":1},"2":{"v":"Config.js","n":1},"3":{"v":"User configuration of Karabiner-Elements","n":0.5}}},{"i":1,"$":{"0":{"v":"currentProfile","n":1},"1":{"v":"Config#currentProfile","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"The current profile object","n":0.5}}},{"i":2,"$":{"0":{"v":"backup","n":1},"1":{"v":"Config#backup","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Creates a backup of the config file with .bak extension in the same directory as the original file.  If an old backup exists, it will be overwritten","n":0.192}}},{"i":3,"$":{"0":{"v":"clearRules","n":1},"1":{"v":"Config#clearRules","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Clears all the rules in the current profile","n":0.354}}},{"i":4,"$":{"0":{"v":"deleteBackup","n":1},"1":{"v":"Config#deleteBackup","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Deletes a backup file","n":0.5}}},{"i":5,"$":{"0":{"v":"load","n":1},"1":{"v":"Config#load","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Reads data from the config file","n":0.408}}},{"i":6,"$":{"0":{"v":"loadBackup","n":1},"1":{"v":"Config#loadBackup","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Restores data from a backup file","n":0.408}}},{"i":7,"$":{"0":{"v":"save","n":1},"1":{"v":"Config#save","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Writes the current data on the config file","n":0.354}}},{"i":8,"$":{"0":{"v":"setFile","n":1},"1":{"v":"Config#setFile","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Sets the config file path","n":0.447}}},{"i":9,"$":{"0":{"v":"setRules","n":1},"1":{"v":"Config#setRules","n":1},"2":{"v":"Config.js","n":1},"4":{"v":"Sets the provided rules to the current profile","n":0.354}}},{"i":10,"$":{"0":{"v":"Rule","n":1},"1":{"v":"Rule","n":1},"2":{"v":"Rule.js","n":1},"3":{"v":"A complex modification rule","n":0.5}}},{"i":11,"$":{"0":{"v":"cond","n":1},"1":{"v":"Rule#cond","n":1},"2":{"v":"Rule.js","n":1},"4":{"v":"Defines a condition","n":0.577}}},{"i":12,"$":{"0":{"v":"remap","n":1},"1":{"v":"Rule#remap","n":1},"2":{"v":"Rule.js","n":1},"4":{"v":"Defines a from-to remap rule","n":0.447}}},{"i":13,"$":{"0":{"v":"toJSON","n":1},"1":{"v":"Rule#toJSON","n":1},"2":{"v":"Rule.js","n":1},"4":{"v":"Returns a plain object representation of this rule","n":0.354}}},{"i":14,"$":{"0":{"v":"RuleSet","n":1},"1":{"v":"RuleSet","n":1},"2":{"v":"RuleSet.js","n":1},"3":{"v":"A collection of one or more modification rules","n":0.354}}},{"i":15,"$":{"0":{"v":"add","n":1},"1":{"v":"RuleSet#add","n":1},"2":{"v":"RuleSet.js","n":1},"4":{"v":"Adds an rule to this ruleset.  If the provided argument is a string, a new instance of {@link Rule} will be created with the string as its description.  If the provided argument is an instance of {@link Rule}, simply adds it to the collection","n":0.151}}},{"i":16,"$":{"0":{"v":"out","n":1},"1":{"v":"RuleSet#out","n":1},"2":{"v":"RuleSet.js","n":1},"4":{"v":"Outputs JSON representation of the whole rule set to STDOUT","n":0.316}}},{"i":17,"$":{"0":{"v":"toJSON","n":1},"1":{"v":"RuleSet#toJSON","n":1},"2":{"v":"RuleSet.js","n":1},"4":{"v":"Returns a plain object representation of this ruleset","n":0.354}}},{"i":18,"$":{"0":{"v":"Sanitizer","n":1},"1":{"v":"Sanitizer","n":1},"2":{"v":"Sanitizer.js","n":1},"3":{"v":"Object sanitizer","n":0.707}}},{"i":19,"$":{"0":{"v":"click","n":1},"1":{"v":"click","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns an object with pointing_button property, which can be passed to {@link Rule#remap} as from or to properties.","n":0.236}}},{"i":20,"$":{"0":{"v":"if_app","n":1},"1":{"v":"if_app","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns an object with type: 'frontmost_application_if' property, which can be passed to {@link Rule#cond} as a condition.","n":0.243}}},{"i":21,"$":{"0":{"v":"if_lang","n":1},"1":{"v":"if_lang","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns an object with type: 'input_source_if' property, which can be passed to {@link Rule#cond} as a condition.","n":0.243}}},{"i":22,"$":{"0":{"v":"if_var","n":1},"1":{"v":"if_var","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns an object with type: 'variable_if' property, which can be passed to {@link Rule#cond} as a condition.","n":0.243}}},{"i":23,"$":{"0":{"v":"key","n":1},"1":{"v":"key","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns an object with key_code property,  which can be passed to {@link Rule#remap} as from or to properties.","n":0.236}}},{"i":24,"$":{"0":{"v":"set_var","n":1},"1":{"v":"set_var","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns an object with set_variable property, which can be passed to {@link Rule#remap} as to property.","n":0.25}}},{"i":25,"$":{"0":{"v":"unless_app","n":1},"1":{"v":"unless_app","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns an object with type: 'frontmost_application_unless' property, which can be passed to {@link Rule#cond} as a condition.","n":0.243}}},{"i":26,"$":{"0":{"v":"unless_lang","n":1},"1":{"v":"unless_lang","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns an object with type: 'input_source_unless' property, which can be passed to {@link Rule#cond} as a condition.","n":0.243}}},{"i":27,"$":{"0":{"v":"unless_var","n":1},"1":{"v":"unless_var","n":1},"2":{"v":"main.js","n":1},"4":{"v":"Returns an object with type: 'variable_unless' property, which can be passed to {@link Rule#cond} as a condition.","n":0.243}}},{"i":28,"$":{"1":{"v":"global","n":1}}}]}</script><script id="docolatte-search-options" type="application/json">{"keys":[{"name":"a","weight":10},{"name":"b","weight":9},{"name":"c","weight":6},{"name":"d","weight":2},{"name":"e","weight":2}]}</script>
 
 </body>
 </html>
