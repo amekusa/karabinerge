@@ -65,8 +65,8 @@
     "obj-digger": "^1.2.0"
   },
   "devDependencies": {
-    "@amekusa/nodeutil": "^1.5.1",
+    "@amekusa/nodeutil": "^1.5.2",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "docolatte": "^4.5.0"
+    "docolatte": "^4.5.1"
   }
 }
