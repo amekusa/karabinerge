@@ -5,18 +5,23 @@ import Sanitizer from './Sanitizer.js';
  * A complex modification rule
  */
 class Rule {
-	static fromJSON(json) {
-		switch (typeof json) {
+	/**
+	 * Instantiates a {@link Rule} from the given JSON string or object.
+	 * @param {string|object} data - JSON string or object
+	 * @return {Rule} new instance
+	 */
+	static fromJSON(data) {
+		switch (typeof data) {
 		case 'object':
 			break;
 		case 'string':
-			json = JSON.parse(json);
+			data = JSON.parse(data);
 			break;
 		default:
 			throw `invalid argument`;
 		}
-		let r = new this(json.desc);
-		if (json.manipulators) r.remaps = arr(json.manipulators);
+		let r = new this(data.description);
+		if (data.manipulators) r.remaps = arr(data.manipulators);
 		return r;
 	}
 	/**
