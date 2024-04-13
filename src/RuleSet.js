@@ -20,7 +20,7 @@ class RuleSet {
 		return r;
 	}
 	/**
-	 * Instanciate a RuleSet from a JSON string or object.
+	 * Instanciates a RuleSet from a JSON string or object.
 	 * @param {string|object} data - JSON string or object
 	 * @return {RuleSet} new instance
 	 */
