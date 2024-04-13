@@ -38,13 +38,27 @@ class RuleSet {
 	 * @param {string} title - title of this ruleset
 	 */
 	constructor(title) {
-		this.title = title;
+		/**
+		 * Title of this RuleSet, which is recognized by Karabiner.
+		 * @type {string}
+		 */
+		this.title = title || '';
+		/**
+		 * Added rules.
+		 * @type {Rule[]}
+		 */
 		this.rules = [];
+		/**
+		 * File that this RuleSet originated from, if it was instantiated with {@link RuleSet.load}.
+		 * It is used as the default destination of {@link RuleSet#save}.
+		 * @type {string}
+		 */
+		this.file = '';
 	}
 	/**
 	 * Adds an rule to this ruleset.
 	 * If the provided argument is a string, a new instance of {@link Rule} will be created with the string as its description.
-	 * If the provided argument is an instance of {@link Rule}, simply adds it to the collection
+	 * If the provided argument is an instance of {@link Rule}, simply adds it to the collection.
 	 * @param {string|Rule} rule - rule description or an instance of {@link Rule}
 	 * @return {Rule} added rule
 	 * @example <caption>Adding a new rule with description</caption>
@@ -58,7 +72,7 @@ class RuleSet {
 		return rule;
 	}
 	/**
-	 * Returns a plain object representation of this ruleset
+	 * Returns a plain object representation of this ruleset.
 	 * @return {object} an object like: `{ title: ... , rules: ... }`
 	 * @example
 	 * let rules = new RuleSet('My Rules');
@@ -72,7 +86,7 @@ class RuleSet {
 		};
 	}
 	/**
-	 * Outputs JSON representation of the whole rule set to STDOUT
+	 * Outputs JSON representation of this ruleset to STDOUT.
 	 */
 	out() {
 		console.log(JSON.stringify(this, null, 2));
