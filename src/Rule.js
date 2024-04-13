@@ -5,11 +5,25 @@ import Sanitizer from './Sanitizer.js';
  * A complex modification rule
  */
 class Rule {
+	static fromJSON(json) {
+		switch (typeof json) {
+		case 'object':
+			break;
+		case 'string':
+			json = JSON.parse(json);
+			break;
+		default:
+			throw `invalid argument`;
+		}
+		let r = new this(json.desc);
+		if (json.manipulators) r.remaps = arr(json.manipulators);
+		return r;
+	}
 	/**
 	 * @param {string} desc - rule description
 	 */
 	constructor(desc) {
-		this.desc = desc;
+		this.desc = desc || '';
 		this.remaps = [];
 		this.conds = [];
 	}
