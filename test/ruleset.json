@@ -1,0 +1,37 @@
+{
+  "title": "Test RuleSet",
+  "rules": [
+    {
+      "description": "Rule Alfa",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "a"
+          },
+          "to": [
+            {
+              "key_code": "b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "Rule Bravo",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "b"
+          },
+          "to": [
+            {
+              "key_code": "c"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
