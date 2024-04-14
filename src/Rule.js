@@ -2,6 +2,28 @@ import {arr, clean, isEmpty} from '@amekusa/util.js';
 import Sanitizer from './Sanitizer.js';
 
 /**
+ * @typedef {object|string} Keymap
+ * A keymap definition which can be passed to {@link Rule#remap} as `from` or `to` properties.
+ * It can be an object like `{ key_code: 'a', ... }`, or a string in the special format.
+ *
+ * #### Object Format
+ * A plain object that loosely follows [the Karabiner's specifications](https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition/from/).
+ * {@link key} function returns in this format.
+ *
+ * #### String Format
+ * A special expression that is only supported by Karabinerge for user's convenience.
+ * Here are some examples:
+ *
+ * | Expression | Meaning |
+ * |:-----------|:--------|
+ * | `'a'` | `a` key |
+ * | `'shift + a'` | `a` key with `shift` modifier |
+ * | `'shift + control + a'` | `a` key with `shift` + `control` modifiers |
+ * | `'shift + (control) + a'` | `a` key with `shift` + optional `control` modifiers |
+ *
+ **/
+
+/**
  * A complex modification rule
  */
 class Rule {
@@ -28,13 +50,28 @@ class Rule {
 	 * @param {string} desc - rule description
 	 */
 	constructor(desc) {
+		/**
+		 * Rule description.
+		 * @type {string}
+		 */
 		this.desc = desc || '';
+		/**
+		 * Remap definitions.
+		 * @type {object[]}
+		 */
 		this.remaps = [];
+		/**
+		 * Remap conditions.
+		 * @type {object[]}
+		 */
 		this.conds = [];
 	}
 	/**
 	 * Defines a `from-to` remap rule
-	 * @param {object} map - rule definition like: `{ from: ... , to: ... }`
+	 * @param {object} map - Rule definition like: `{ from: ... , to: ... }`
+	 * @param {Keymap} map.from - An object like `{ key_code: 'a' }`, or a string of the special expression. (See {@link Keymap})
+	 * @param {Keymap|Keymap[]} map.to - An object like `{ key_code: 'a' }`, or a string of the special expression. Also can be an array for multiple keymaps (See {@link Keymap})
+	 * @param {any} map.* - Any property that Karabiner supports for [manipulator](https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition/)
 	 * @return {Rule} this
 	 * @example <caption>Remap control + H to backspace</caption>
 	 * let rule = new Rule('control + H to backspace')
