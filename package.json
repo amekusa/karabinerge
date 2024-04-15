@@ -62,7 +62,7 @@
   "license": "MIT",
   "dependencies": {
     "@amekusa/util.js": "^1.1.0",
-    "obj-digger": "^1.2.0"
+    "obj-digger": "^2.1.0"
   },
   "devDependencies": {
     "@amekusa/nodeutil": "^3.0.0",
