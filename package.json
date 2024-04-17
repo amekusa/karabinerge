@@ -12,15 +12,18 @@
   ],
   "scripts": {
     "dev": "npm-watch",
-    "test": "c8 mocha",
+    "test": "mocha --enable-source-maps",
     "lint": "eslint .",
     "build": "npm run lint && rollup -c rollup.js",
     "clean": "rm -rf ./dist",
     "prod": "npm run clean; NODE_ENV=production npm run build",
-    "docs": "npm run docs:gen && npm run docs:publish",
-    "docs:gen": "npm run docs:clean; jsdoc -c jsdoc.json && cd docs/karabinerge && ln -sfn $npm_package_version latest",
+    "cov": "npm run cov:gen && npm run cov:pub",
+    "cov:gen": "c8 npm test && c8 report -r lcov",
+    "cov:pub": "curl -X POST --data-binary @.codecov.yml https://codecov.io/validate && codecovcli --verbose upload-process",
+    "docs": "npm run docs:clean; npm run docs:gen",
+    "docs:gen": "jsdoc -c jsdoc.json && cd docs/karabinerge && ln -sfn $npm_package_version latest",
     "docs:clean": "rm -rf docs/karabinerge/$npm_package_version",
-    "docs:publish": "git subtree push --prefix docs/karabinerge origin gh-pages"
+    "gh-pages": "git subtree push --prefix docs/karabinerge origin gh-pages"
   },
   "watch": {
     "build": {
@@ -37,6 +40,14 @@
         "dist/**"
       ],
       "extensions": "js,mjs,cjs",
+      "delay": 100,
+      "inherit": true
+    },
+    "docs:gen": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js",
       "delay": 100,
       "inherit": true
     }
