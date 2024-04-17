@@ -71,9 +71,9 @@ export class Rule {
 	 * Defines a `from-to` remap rule
 	 * @param {object} map - Rule definition like: `{ from: ... , to: ... }`
 	 * @param {Keymap} map.from - An object like `{ key_code: 'a' }`, or a string of the special expression. (See {@link Keymap})
-	 * @param {Keymap|Keymap[]} map.to - An object like `{ key_code: 'a' }`, or a string of the special expression. Also can be an array for multiple keymaps (See {@link Keymap})
+	 * @param {Keymap|Keymap[]} map.to - An object like `{ key_code: 'a' }`, or a string of the special expression. Also can be an array for multiple keymaps. (See {@link Keymap})
 	 * @param {any} map.* - Any property that Karabiner supports for [manipulator](https://karabiner-elements.pqrs.org/docs/json/complex-modifications-manipulator-definition/)
-	 * @return {Rule} this
+	 * @return {Rule} itself
 	 * @example <caption>Remap control + H to backspace</caption>
 	 * let rule = new Rule('control + H to backspace')
 	 *   .remap({
