@@ -4,7 +4,7 @@ import dig from 'obj-digger';
 /**
  * Object sanitizer
  */
-class Sanitizer {
+export class Sanitizer {
 	constructor() {
 		this.filters = [];
 	}
@@ -19,6 +19,4 @@ class Sanitizer {
 		return obj;
 	}
 }
-
-export default Sanitizer;
 

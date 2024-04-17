@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import Rule from './Rule.js';
+import {Rule} from './Rule.js';
 
 /**
  * A collection of one or more modification rules
@@ -7,7 +7,7 @@ import Rule from './Rule.js';
  * @example
  * let rules = new RuleSet('My Rules');
  */
-class RuleSet {
+export class RuleSet {
 	/**
 	 * Instanciates a RuleSet from the given JSON file.
 	 * @param {string} file - JSON file to load, which is normally located in `~/.config/karabiner/complex_modifications`
@@ -108,4 +108,3 @@ class RuleSet {
 	}
 }
 
-export default RuleSet;

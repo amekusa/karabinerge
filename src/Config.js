@@ -6,7 +6,7 @@ import dig from 'obj-digger';
 /**
  * User configuration of Karabiner-Elements
  */
-class Config {
+export class Config {
 	static new(...args) {
 		return new this(...args);
 	}
@@ -100,4 +100,3 @@ class Config {
 	}
 }
 
-export default Config;

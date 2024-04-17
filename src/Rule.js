@@ -1,5 +1,6 @@
 import {arr, clean, isEmpty} from '@amekusa/util.js';
-import Sanitizer from './Sanitizer.js';
+import {Sanitizer} from './Sanitizer.js';
+import {key} from './fn.js';
 
 /**
  * @typedef {object|string} Keymap
@@ -26,7 +27,7 @@ import Sanitizer from './Sanitizer.js';
 /**
  * A complex modification rule
  */
-class Rule {
+export class Rule {
 	/**
 	 * Instantiates a {@link Rule} from the given JSON string or object.
 	 * @param {string|object} data - JSON string or object
@@ -150,4 +151,3 @@ const remapSanitizer = new Sanitizer()
 		return arr(prop);
 	});
 
-export default Rule;
