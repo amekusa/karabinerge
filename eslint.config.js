@@ -2,6 +2,7 @@ export default [
 	{
 		ignores: [
 			'node_modules/',
+			'test/',
 			'dist/',
 			'docs/',
 		]
@@ -9,7 +10,6 @@ export default [
 	{
 		files: [
 			'src/**/*.js',
-			'test/**/*.js',
 		],
 		rules: {
 			semi: ['error', 'always'],
