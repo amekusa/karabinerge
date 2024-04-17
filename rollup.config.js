@@ -2,7 +2,7 @@
  * Rollup Config
  *
  * Use with:
- *   rollup -c rollup.js
+ *   rollup -c
  */
 
 import { env } from 'node:process';

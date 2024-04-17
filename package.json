@@ -14,7 +14,7 @@
     "dev": "npm-watch",
     "test": "mocha --enable-source-maps",
     "lint": "eslint .",
-    "build": "npm run lint && rollup -c rollup.js",
+    "build": "npm run lint && rollup -c",
     "clean": "rm -rf ./dist",
     "prod": "npm run clean; NODE_ENV=production npm run build",
     "cov": "npm run cov:gen && npm run cov:pub",
