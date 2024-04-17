@@ -129,6 +129,14 @@ export class Rule {
 }
 
 const remapSanitizer = new Sanitizer()
+	.addFilter([
+		'from',
+		'to',
+		'to[]',
+	], prop => {
+		if (typeof prop == 'string') return key(prop);
+		return prop;
+	})
 	.addFilter('from.modifiers', prop => {
 		if (Array.isArray(prop)) return { mandatory: prop };
 		switch (typeof prop) {
