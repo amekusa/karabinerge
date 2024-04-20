@@ -88,7 +88,7 @@ export class Rule {
 	 */
 	remap(map) {
 		if (!map.type) map.type = 'basic';
-		if (this.conds.length) map = Object.assign(map, { conditions: this.conds });
+		if (this.conds.length) map = Object.assign(map, {conditions: this.conds});
 		map = clean(remapSanitizer.sanitize(map));
 		if (isEmpty(map)) console.warn(`Rule.remap: empty argument`);
 		else this.remaps.push(map);
@@ -138,10 +138,10 @@ const remapSanitizer = new Sanitizer()
 		return prop;
 	})
 	.addFilter('from.modifiers', prop => {
-		if (Array.isArray(prop)) return { mandatory: prop };
+		if (Array.isArray(prop)) return {mandatory: prop};
 		switch (typeof prop) {
 		case 'string':
-			return { mandatory: [prop] };
+			return {mandatory: [prop]};
 		}
 		return prop;
 	})

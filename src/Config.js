@@ -95,7 +95,7 @@ export class Config {
 	 * @return {Config} itself
 	 */
 	setRules(rules) {
-		dig(this.currentProfile, 'complex_modifications.rules', { set: rules, makePath: true, throw: true });
+		dig(this.currentProfile, 'complex_modifications.rules', {set: rules, makePath: true, throw: true});
 		return this;
 	}
 }

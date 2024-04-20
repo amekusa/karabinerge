@@ -16,7 +16,8 @@ export default [
 			indent: ['error', 'tab', {
 				ignoreComments: true,
 				ignoredNodes: ['SwitchCase']
-			}]
+			}],
+			'object-curly-spacing': ['warn', 'never'],
 		}
 	}
 ];

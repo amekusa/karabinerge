@@ -168,7 +168,7 @@ export function if_lang(...lang) {
 	return {
 		type: 'input_source_if',
 		input_sources: lang.map(item => {
-			return { language: item };
+			return {language: item};
 		})
 	};
 }
@@ -182,7 +182,7 @@ export function unless_lang(...lang) {
 	return {
 		type: 'input_source_unless',
 		input_sources: lang.map(item => {
-			return { language: item };
+			return {language: item};
 		})
 	};
 }
