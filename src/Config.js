@@ -7,9 +7,6 @@ import dig from 'obj-digger';
  * User configuration of Karabiner-Elements
  */
 export class Config {
-	static new(...args) {
-		return new this(...args);
-	}
 	/**
 	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - config file path
 	 */
