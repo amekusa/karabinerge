@@ -11,24 +11,26 @@ export class Config {
 		return new this(...args);
 	}
 	/**
-	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - config file to read/write
+	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - config file path
 	 */
 	constructor(file = null) {
-		this.setFile(file || path.join(os.homedir(), '.config', 'karabiner', 'karabiner.json'));
 		this.data = null;
+		this.file = null;
+		this.setFile(file);
 	}
 	/**
 	 * Sets the config file path
-	 * @param {string} file - config file path
-	 * @return {Config} this
+	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - config file path
+	 * @return {Config} itself
 	 */
-	setFile(file) {
-		this.file = file;
+	setFile(file = null) {
+		this.file = file || path.join(os.homedir(), '.config', 'karabiner', 'karabiner.json');
 		return this;
 	}
 	/**
-	 * Reads data from the config file
-	 * @return {Config} this
+	 * Reads the data from the config file
+	 * @param {string} [file] - config file path
+	 * @return {Config} itself
 	 */
 	load(file = null) {
 		if (!file) file = this.file;
@@ -38,7 +40,8 @@ export class Config {
 	}
 	/**
 	 * Writes the current data on the config file
-	 * @return {Config} this
+	 * @param {string} [file] - config file path
+	 * @return {Config} itself
 	 */
 	save(file = null) {
 		if (!file) file = this.file;
@@ -49,21 +52,21 @@ export class Config {
 	/**
 	 * Creates a backup of the config file with `.bak` extension in the same directory as the original file.
 	 * If an old backup exists, it will be overwritten
-	 * @return {Config} this
+	 * @return {Config} itself
 	 */
 	backup() {
 		return this.save(this.file + '.bak');
 	}
 	/**
-	 * Restores data from a backup file
-	 * @return {Config} this
+	 * Restores the data from the backup file
+	 * @return {Config} itself
 	 */
 	loadBackup() {
 		return this.load(this.file + '.bak');
 	}
 	/**
-	 * Deletes a backup file
-	 * @return {Config} this
+	 * Deletes the backup file
+	 * @return {Config} itself
 	 */
 	deleteBackup() {
 		fs.unlinkSync(this.file + '.bak');
@@ -84,15 +87,15 @@ export class Config {
 	}
 	/**
 	 * Clears all the rules in the current profile
-	 * @return {Config} this
+	 * @return {Config} itself
 	 */
 	clearRules() {
 		return this.setRules([]);
 	}
 	/**
-	 * Sets the provided rules to the current profile
+	 * Sets the given rules to the current profile
 	 * @param {object[]} rules - an array of rule definitions
-	 * @return {Config} this
+	 * @return {Config} itself
 	 */
 	setRules(rules) {
 		dig(this.currentProfile, 'complex_modifications.rules', { set: rules, makePath: true, throw: true });
