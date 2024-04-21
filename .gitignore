@@ -1,2 +1,5 @@
 *.map
 /dist
+/.codecov.yml
+/test/secrets.json
+
