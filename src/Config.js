@@ -85,6 +85,44 @@ export class Config {
 		throw `no active profile`;
 	}
 	/**
+	 * Switches to the specified profile.
+	 * @param {number|string|RegExp} prof - Profile index, name, or regex for name
+	 * @return {Config} Itself
+	 */
+	selectProfile(prof) {
+		let curr = this.currentProfile;
+		let profs = this.data.profiles;
+		switch (typeof prof) {
+		case 'number': // by index
+			if (!profs[prof]) throw `index out of bounds`;
+			curr.selected = false;
+			profs[prof].selected = true;
+			break;
+		case 'string': // by name
+			for (let i = 0; i < profs.length; i++) {
+				if (profs[i].name == prof) {
+					curr.selected = false;
+					profs[i].selected = true;
+					break;
+				}
+			}
+			break;
+		case 'object': // by regex
+			if (!(prof instanceof RegExp)) throw `invalid argument`;
+			for (let i = 0; i < profs.length; i++) {
+				if (profs[i].name.match(prof)) {
+					curr.selected = false;
+					profs[i].selected = true;
+					break;
+				}
+			}
+			break;
+		default:
+			throw `invalid argument`;
+		}
+		return this;
+	}
+	/**
 	 * Clears all the rules in the current profile.
 	 * @return {Config} Itself
 	 */
