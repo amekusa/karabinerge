@@ -1,76 +1,78 @@
-import os from 'node:os';
 import fs from 'node:fs';
 import path from 'node:path';
 import dig from 'obj-digger';
+import {io} from '@amekusa/nodeutil';
+import {Rule} from './Rule.js';
 
 /**
- * User configuration of Karabiner-Elements
+ * User configuration of Karabiner-Elements.
  */
 export class Config {
 	/**
-	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - config file path
+	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - Config file path
 	 */
 	constructor(file = null) {
 		this.data = null;
 		this.file = null;
 		this.setFile(file);
 	}
+	toJSON() {
+		return this.data;
+	}
 	/**
-	 * Sets the config file path
-	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - config file path
-	 * @return {Config} itself
+	 * Sets the config file path.
+	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - Config file path
+	 * @return {Config} Itself
 	 */
 	setFile(file = null) {
-		this.file = file || path.join(os.homedir(), '.config', 'karabiner', 'karabiner.json');
+		this.file = file ? io.untilde(file) : path.join(io.home, '.config', 'karabiner', 'karabiner.json');
 		return this;
 	}
 	/**
-	 * Reads the data from the config file
-	 * @param {string} [file] - config file path
-	 * @return {Config} itself
+	 * Reads the data from the config file.
+	 * @param {string} [file] - Config file path
+	 * @return {Config} Itself
 	 */
 	load(file = null) {
 		if (!file) file = this.file;
-		let content = fs.readFileSync(file, 'utf8');
-		this.data = JSON.parse(content);
+		this.data = JSON.parse(fs.readFileSync(file, 'utf8'));
 		return this;
 	}
 	/**
-	 * Writes the current data on the config file
-	 * @param {string} [file] - config file path
-	 * @return {Config} itself
+	 * Writes the current data on the config file.
+	 * @param {string} [file] - Config file path
+	 * @return {Config} Itself
 	 */
 	save(file = null) {
 		if (!file) file = this.file;
-		let content = JSON.stringify(this.data, null, 4);
-		fs.writeFileSync(file, content, 'utf8');
+		fs.writeFileSync(file, JSON.stringify(this, null, 4), 'utf8');
 		return this;
 	}
 	/**
 	 * Creates a backup of the config file with `.bak` extension in the same directory as the original file.
 	 * If an old backup exists, it will be overwritten
-	 * @return {Config} itself
+	 * @return {Config} Itself
 	 */
 	backup() {
 		return this.save(this.file + '.bak');
 	}
 	/**
-	 * Restores the data from the backup file
-	 * @return {Config} itself
+	 * Restores the data from the backup file.
+	 * @return {Config} Itself
 	 */
 	loadBackup() {
 		return this.load(this.file + '.bak');
 	}
 	/**
-	 * Deletes the backup file
-	 * @return {Config} itself
+	 * Deletes the backup file.
+	 * @return {Config} Itself
 	 */
 	deleteBackup() {
 		fs.unlinkSync(this.file + '.bak');
 		return this;
 	}
 	/**
-	 * The current profile object
+	 * The current profile object.
 	 * @type {object}
 	 */
 	get currentProfile() {
@@ -83,19 +85,23 @@ export class Config {
 		throw `no active profile`;
 	}
 	/**
-	 * Clears all the rules in the current profile
-	 * @return {Config} itself
+	 * Clears all the rules in the current profile.
+	 * @return {Config} Itself
 	 */
 	clearRules() {
 		return this.setRules([]);
 	}
 	/**
-	 * Sets the given rules to the current profile
-	 * @param {object[]} rules - an array of rule definitions
-	 * @return {Config} itself
+	 * Sets the given rules to the current profile.
+	 * @param {object[]|Rule[]} rules - An array of rule definitions
+	 * @return {Config} Itself
 	 */
 	setRules(rules) {
-		dig(this.currentProfile, 'complex_modifications.rules', {set: rules, makePath: true, throw: true});
+		dig(this.currentProfile, 'complex_modifications.rules', {
+			set: rules.map(rule => (rule instanceof Rule) ? rule.toJSON() : rule),
+			makePath: true,
+			throw: true
+		});
 		return this;
 	}
 }
