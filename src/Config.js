@@ -16,11 +16,18 @@ export class Config {
 		this.file = null;
 		this.setFile(file);
 	}
-	toJSON() {
-		return this.data;
+	/**
+	 * Returns a JSON representation of this config.
+	 * @param {boolean} [stringify=false] - If `true`, returns a stringified result
+	 * @return {object|string} A JSON object
+	 */
+	toJSON(stringify = false) {
+		let r = this.data;
+		return stringify ? JSON.stringify(r, null, 4) : r;
 	}
 	/**
 	 * Sets the config file path.
+	 * The file is used as the default location for {@link Config#load} and {@link Config#save}.
 	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - Config file path
 	 * @return {Config} Itself
 	 */
@@ -34,7 +41,9 @@ export class Config {
 	 * @return {Config} Itself
 	 */
 	load(file = null) {
-		if (!file) file = this.file;
+		if (file) file = io.untilde(file);
+		else if (!this.file) throw `argument required`;
+		else file = this.file;
 		this.data = JSON.parse(fs.readFileSync(file, 'utf8'));
 		return this;
 	}
@@ -44,8 +53,11 @@ export class Config {
 	 * @return {Config} Itself
 	 */
 	save(file = null) {
-		if (!file) file = this.file;
-		fs.writeFileSync(file, JSON.stringify(this, null, 4), 'utf8');
+		if (file) file = io.untilde(file);
+		else if (!this.file) throw `argument required`;
+		else file = this.file;
+		let data = this.toJSON(true);
+		fs.writeFileSync(file, data, 'utf8');
 		return this;
 	}
 	/**

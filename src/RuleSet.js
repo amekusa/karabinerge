@@ -1,38 +1,32 @@
+import {stdout} from 'node:process';
 import fs from 'node:fs';
+import {io} from '@amekusa/nodeutil';
 import {Rule} from './Rule.js';
 
 /**
- * A collection of one or more modification rules
+ * A collection of one or more modification rules.
  *
- * @example
+ * @example // Create a new RuleSet
  * let rules = new RuleSet('My Rules');
+ *
  */
 export class RuleSet {
 	/**
-	 * Instanciates a RuleSet from the given JSON file.
-	 * @param {string} file - JSON file to load, which is normally located in `~/.config/karabiner/complex_modifications`
-	 * @return {RuleSet} new instance
-	 */
-	static load(file) {
-		file = fs.realpathSync(file);
-		let r = this.fromJSON(fs.readFileSync(file, 'utf8'));
-		r.file = file;
-		return r;
-	}
-	/**
-	 * Instanciates a RuleSet from a JSON string or object.
+	 * Instantiates a RuleSet from a JSON string or object.
 	 * @param {string|object} data - JSON string or object
-	 * @return {RuleSet} new instance
+	 * @return {RuleSet} New instance
 	 */
 	static fromJSON(data) {
-		data = (typeof data == 'string') ? JSON.parse(data) : data;
-		let r = new this(data.title);
-		if (Array.isArray(data.rules)) { // add rules
-			for (let i = 0; i < data.rules.length; i++) {
-				r.add(Rule.fromJSON(data.rules[i]));
-			}
-		}
-		return r;
+		return new this().loadJSON(data);
+	}
+	/**
+	 * Instantiates a RuleSet from a JSON file.
+	 * Ruleset JSON files are normally located in `~/.config/karabiner/complex_modifications`.
+	 * @param {string} file - JSON file path
+	 * @return {RuleSet} New instance
+	 */
+	static fromFile(file) {
+		return new this().setFile(file).load();
 	}
 	/**
 	 * @param {string} title - title of this ruleset
@@ -49,11 +43,21 @@ export class RuleSet {
 		 */
 		this.rules = [];
 		/**
-		 * File that this RuleSet originated from, if it was instantiated with {@link RuleSet.load}.
-		 * It is used as the default destination of {@link RuleSet#save}.
+		 * The JSON file path to save/load.
 		 * @type {string}
 		 */
-		this.file = '';
+		this.file = null;
+	}
+	/**
+	 * Sets the JSON file path.
+	 * The file is used as the default location for {@link RuleSet#load} and {@link RuleSet#save}.
+	 * Ruleset JSON files are normally located in `~/.config/karabiner/complex_modifications`.
+	 * @param {string} file - JSON file path
+	 * @return {RuleSet} Itself
+	 */
+	setFile(file) {
+		this.file = io.untilde(file);
+		return this;
 	}
 	/**
 	 * Adds an rule to this ruleset.
@@ -72,39 +76,64 @@ export class RuleSet {
 		return rule;
 	}
 	/**
-	 * Returns a plain object representation of this ruleset.
-	 * @return {object} an object like: `{ title: ... , rules: ... }`
+	 * Returns a JSON representation of this ruleset.
+	 * @param {boolean} [stringify=false] - If `true`, returns a stringified result
+	 * @return {object|string} An object like: `{ title: ... , rules: ... }`
 	 * @example
 	 * let rules = new RuleSet('My Rules');
 	 * let obj = rules.toJSON();
 	 * console.log( obj.title ); // 'My Rules'
 	 */
-	toJSON() {
-		return {
+	toJSON(stringify = false) {
+		let r = {
 			title: this.title,
 			rules: this.rules.map(item => item.toJSON())
 		};
+		return stringify ? JSON.stringify(r, null, 2) : r;
 	}
 	/**
 	 * Outputs JSON representation of this ruleset to STDOUT.
 	 */
 	out() {
-		console.log(JSON.stringify(this, null, 2));
+		stdout.write(this.toJSON(true));
+	}
+	/**
+	 * Loads JSON data.
+	 * @param {string|object} data - JSON string or object
+	 * @return {RuleSet} Itself
+	 */
+	loadJSON(data) {
+		data = (typeof data == 'string') ? JSON.parse(data) : data;
+		this.title = data.title || '';
+		if (Array.isArray(data.rules)) { // add rules
+			for (let i = 0; i < data.rules.length; i++) this.add(Rule.fromJSON(data.rules[i]));
+		}
+		return this;
+	}
+	/**
+	 * Loads a JSON file.
+	 * @param {string} file - JSON file path,
+	 * @return {RuleSet} Itself
+	 */
+	load(file = null) {
+		if (file) file = io.untilde(file);
+		else if (!this.file) throw `argument required`;
+		else file = this.file;
+		this.loadJSON(fs.readFileSync(file));
+		return this;
 	}
 	/**
 	 * Saves this ruleset to the given file in JSON format.
 	 * @param {string} [file] - Save destination. Defaults to {@link RuleSet#file}
-	 * @return {string} written data
+	 * @return {RuleSet} Itself
 	 */
-	save(file = '') {
-		if (file) {
-			this.file = file;
-		} else {
-			if (!this.file) throw new Error(`argument required`);
-		}
-		let data = JSON.stringify(this, null, 2);
-		fs.writeFileSync(data, 'utf8');
-		return data;
+	save(file = null) {
+		if (file) file = io.untilde(file);
+		else if (!this.file) throw `argument required`;
+		else file = this.file;
+		let data = this.toJSON(true);
+		fs.writeFileSync(file, data, 'utf8');
+		return this;
 	}
 }
 
