@@ -1,20 +1,22 @@
-import fs from 'node:fs';
 import path from 'node:path';
 import dig from 'obj-digger';
 import {io} from '@amekusa/nodeutil';
+import {IO} from './IO.js';
 import {Rule} from './Rule.js';
 
 /**
  * User configuration of Karabiner-Elements.
  */
 export class Config {
-	/**
-	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - Config file path
-	 */
-	constructor(file = null) {
-		this.data = null;
-		this.file = null;
-		this.setFile(file);
+	constructor() {
+		/**
+		 * @type {object}
+		 */
+		this.data;
+		/**
+		 * @type {IO}
+		 */
+		this.io;
 	}
 	/**
 	 * Returns a JSON representation of this config.
@@ -26,61 +28,31 @@ export class Config {
 		return stringify ? JSON.stringify(r, null, 4) : r;
 	}
 	/**
-	 * Sets the config file path.
-	 * The file is used as the default location for {@link Config#load} and {@link Config#save}.
+	 * Setup {@link IO} object for reading/writing this config from/to a file.
 	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - Config file path
+	 * @param {object} [opts] - IO options
 	 * @return {Config} Itself
 	 */
-	setFile(file = null) {
-		this.file = file ? io.untilde(file) : path.join(io.home, '.config', 'karabiner', 'karabiner.json');
+	setIO(file = null, opts = {}) {
+		this.io = new IO(file || path.join(io.home, '.config', 'karabiner', 'karabiner.json'), opts);
 		return this;
 	}
 	/**
-	 * Reads the data from the config file.
-	 * @param {string} [file] - Config file path
+	 * Loads data from the config file.
 	 * @return {Config} Itself
 	 */
-	load(file = null) {
-		if (file) file = io.untilde(file);
-		else if (!this.file) throw `argument required`;
-		else file = this.file;
-		this.data = JSON.parse(fs.readFileSync(file, 'utf8'));
+	load() {
+		if (!this.io) throw `io is not set`;
+		this.data = JSON.parse(this.io.read());
 		return this;
 	}
 	/**
 	 * Writes the current data on the config file.
-	 * @param {string} [file] - Config file path
 	 * @return {Config} Itself
 	 */
-	save(file = null) {
-		if (file) file = io.untilde(file);
-		else if (!this.file) throw `argument required`;
-		else file = this.file;
-		let data = this.toJSON(true);
-		fs.writeFileSync(file, data, 'utf8');
-		return this;
-	}
-	/**
-	 * Creates a backup of the config file with `.bak` extension in the same directory as the original file.
-	 * If an old backup exists, it will be overwritten
-	 * @return {Config} Itself
-	 */
-	backup() {
-		return this.save(this.file + '.bak');
-	}
-	/**
-	 * Restores the data from the backup file.
-	 * @return {Config} Itself
-	 */
-	loadBackup() {
-		return this.load(this.file + '.bak');
-	}
-	/**
-	 * Deletes the backup file.
-	 * @return {Config} Itself
-	 */
-	deleteBackup() {
-		fs.unlinkSync(this.file + '.bak');
+	save() {
+		if (!this.io) throw `io is not set`;
+		this.io.write(this.toJSON(true));
 		return this;
 	}
 	/**
