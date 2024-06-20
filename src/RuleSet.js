@@ -1,6 +1,4 @@
 import {stdout} from 'node:process';
-import fs from 'node:fs';
-import {io} from '@amekusa/nodeutil';
 import {IO} from './IO.js';
 import {Rule} from './Rule.js';
 
@@ -13,7 +11,7 @@ import {Rule} from './Rule.js';
  */
 export class RuleSet {
 	/**
-	 * Instantiates a RuleSet from a JSON string or object.
+	 * Instantiates RuleSet from a JSON string or object.
 	 * @param {string|object} data - JSON string or object
 	 * @return {RuleSet} New instance
 	 */
@@ -21,8 +19,8 @@ export class RuleSet {
 		return new this().loadJSON(data);
 	}
 	/**
-	 * Instantiates a RuleSet from a JSON file.
-	 * Ruleset JSON files are normally located in `~/.config/karabiner/complex_modifications`.
+	 * Instantiates RuleSet from a JSON file.
+	 * Ruleset files are normally located at `~/.config/karabiner/complex_modifications/*.json`.
 	 * @param {string} file - JSON file path
 	 * @param {object} [opts] - IO options
 	 * @return {RuleSet} New instance
@@ -31,7 +29,7 @@ export class RuleSet {
 		return new this().setIO(file, opts).load();
 	}
 	/**
-	 * @param {string} title - title of this ruleset
+	 * @param {string} title - Title of this ruleset
 	 */
 	constructor(title) {
 		/**
@@ -45,41 +43,10 @@ export class RuleSet {
 		 */
 		this.rules = [];
 		/**
-		 * The JSON file path to save/load.
-		 * @type {string}
-		 */
-		this.file = null;
-		/**
+		 * IO object for reading/writing this ruleset from/to a file.
 		 * @type {IO}
 		 */
 		this.io;
-	}
-	/**
-	 * Setup {@link IO} object for reading/writing this ruleset from/to a file.
-	 * Ruleset files are normally located in `~/.config/karabiner/complex_modifications/*.json`.
-	 * @param {string} file - Ruleset file path
-	 * @param {object} [opts] - IO options
-	 * @return {Config} Itself
-	 */
-	setIO(file, opts = {}) {
-		this.io = new IO(file, opts);
-		return this;
-	}
-	/**
-	 * Adds an rule to this ruleset.
-	 * If the provided argument is a string, a new instance of {@link Rule} will be created with the string as its description.
-	 * If the provided argument is an instance of {@link Rule}, simply adds it to the collection.
-	 * @param {string|Rule} rule - rule description or an instance of {@link Rule}
-	 * @return {Rule} added rule
-	 * @example <caption>Adding a new rule with description</caption>
-	 * let rule = rules.add('My 1st rule');
-	 * @example <caption>Adding a rule instance</caption>
-	 * let rule = rules.add(new Rule('My 1st rule'));
-	 */
-	add(rule) {
-		if (!(rule instanceof Rule)) rule = new Rule(rule);
-		this.rules.push(rule);
-		return rule;
 	}
 	/**
 	 * Returns a JSON representation of this ruleset.
@@ -102,6 +69,33 @@ export class RuleSet {
 	 */
 	out() {
 		stdout.write(this.toJSON(true));
+	}
+	/**
+	 * Setup {@link IO} object for reading/writing this ruleset from/to a file.
+	 * Ruleset files are normally located at `~/.config/karabiner/complex_modifications/*.json`.
+	 * @param {string} file - Ruleset file path
+	 * @param {object} [opts] - IO options
+	 * @return {RuleSet} Itself
+	 */
+	setIO(file, opts = {}) {
+		this.io = new IO(file, opts);
+		return this;
+	}
+	/**
+	 * Adds an rule to this ruleset.
+	 * If the provided argument is a string, a new instance of {@link Rule} will be created with the string as its description.
+	 * If the provided argument is an instance of {@link Rule}, simply adds it to the collection.
+	 * @param {string|Rule} rule - rule description or an instance of {@link Rule}
+	 * @return {Rule} added rule
+	 * @example <caption>Adding a new rule with description</caption>
+	 * let rule = rules.add('My 1st rule');
+	 * @example <caption>Adding a rule instance</caption>
+	 * let rule = rules.add(new Rule('My 1st rule'));
+	 */
+	add(rule) {
+		if (!(rule instanceof Rule)) rule = new Rule(rule);
+		this.rules.push(rule);
+		return rule;
 	}
 	/**
 	 * Loads JSON data.
