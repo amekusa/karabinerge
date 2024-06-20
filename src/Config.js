@@ -79,7 +79,7 @@ export class Config {
 	 */
 	load() {
 		if (!this.io) throw `io is not set`;
-		return this.loadJSON(this.io.read())
+		return this.loadJSON(this.io.read());
 	}
 	/**
 	 * Writes the current data on the config file.
