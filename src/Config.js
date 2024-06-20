@@ -1,3 +1,4 @@
+import {stdout} from 'node:process';
 import path from 'node:path';
 import dig from 'obj-digger';
 import {io} from '@amekusa/nodeutil';
@@ -8,12 +9,32 @@ import {Rule} from './Rule.js';
  * User configuration of Karabiner-Elements.
  */
 export class Config {
+	/**
+	 * Instantiates Config from a JSON string or object.
+	 * @param {string|object} data - JSON string or object
+	 * @return {Config} New instance
+	 */
+	static fromJSON(data) {
+		return new this().loadJSON(data);
+	}
+	/**
+	 * Instantiates Config from a JSON file.
+	 * Config file is normally located at `~/.config/karabiner/karabiner.json`
+	 * @param {string} file - JSON file path
+	 * @param {object} [opts] - IO options
+	 * @return {Config} New instance
+	 */
+	static fromFile(file, opts = {}) {
+		return new this().setIO(file, opts).load();
+	}
 	constructor() {
 		/**
+		 * Config data
 		 * @type {object}
 		 */
 		this.data;
 		/**
+		 * IO object for reading/writing this config from/to a file.
 		 * @type {IO}
 		 */
 		this.io;
@@ -28,6 +49,12 @@ export class Config {
 		return stringify ? JSON.stringify(r, null, 4) : r;
 	}
 	/**
+	 * Outputs JSON representation of this config to STDOUT.
+	 */
+	out() {
+		stdout.write(this.toJSON(true));
+	}
+	/**
 	 * Setup {@link IO} object for reading/writing this config from/to a file.
 	 * @param {string} [file='~/.config/karabiner/karabiner.json'] - Config file path
 	 * @param {object} [opts] - IO options
@@ -38,13 +65,21 @@ export class Config {
 		return this;
 	}
 	/**
+	 * Loads JSON data.
+	 * @param {string|object} data - JSON string or object
+	 * @return {Config} Itself
+	 */
+	loadJSON(data) {
+		this.data = (typeof data == 'string') ? JSON.parse(data) : data;
+		return this;
+	}
+	/**
 	 * Loads data from the config file.
 	 * @return {Config} Itself
 	 */
 	load() {
 		if (!this.io) throw `io is not set`;
-		this.data = JSON.parse(this.io.read());
-		return this;
+		return this.loadJSON(this.io.read())
 	}
 	/**
 	 * Writes the current data on the config file.
