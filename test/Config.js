@@ -20,9 +20,9 @@ import fs from 'node:fs';
 const secrets = JSON.parse(fs.readFileSync('./test/secrets.json'));
 
 describe(`class: Config`, () => {
-	const configFile = './test/config.json';
-	const configData = JSON.parse(fs.readFileSync(configFile));
-	const newConfig = () => Config.fromFile(configFile);
+	const file = './test/config.json';
+	const data = JSON.parse(fs.readFileSync(file));
+	const newConfig = () => Config.fromFile(file);
 
 	testMethod(Config, 'setIO', {
 		'no args': {
@@ -35,7 +35,7 @@ describe(`class: Config`, () => {
 
 	testMethod(Config, 'fromFile', {
 		'test file': {
-			args: [configFile],
+			args: [file],
 			returnType: Config,
 			test(r, _, file) {
 				eq(r.io.file, file);
@@ -47,14 +47,14 @@ describe(`class: Config`, () => {
 		'default': {
 			returnType: 'object',
 			test(r) {
-				dseq(r, configData);
+				dseq(r, data);
 			}
 		},
 		'stringify': {
 			args: [true],
 			returnType: 'string',
 			test(r) {
-				dseq(JSON.parse(r), configData);
+				dseq(JSON.parse(r), data);
 			}
 		}
 	});
