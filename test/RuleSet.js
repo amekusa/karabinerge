@@ -16,38 +16,53 @@ const {
 
 import {RuleSet} from '../dist/import/bundle.mjs';
 
-testMethod(RuleSet, 'load', {
-	'file': {
-		args: ['./test/ruleset.json'],
-		returnType: RuleSet,
-		test(r) {
-			assertProps(r, {
-				title: 'Test RuleSet',
-				file: fs.realpathSync('./test/ruleset.json'),
-			});
-			// ---- check rules ----
-			let {rules} = r;
-			eq(rules.length, 2);
-			assertProps(rules[0], {
-				desc: 'Rule Alfa',
-				remaps: [
-					{
-						type: 'basic',
-						from: {key_code: 'a'},
-						to:  [{key_code: 'b'}]
-					}
-				]
-			});
-			assertProps(rules[1], {
-				desc: 'Rule Bravo',
-				remaps: [
-					{
-						type: 'basic',
-						from: {key_code: 'b'},
-						to:  [{key_code: 'c'}]
-					}
-				]
-			});
+describe(`class: RuleSet`, () => {
+	const file = './test/config.json';
+	const data = JSON.parse(fs.readFileSync(file));
+	const newRuleSet = () => RuleSet.fromFile(file);
+
+	testMethod(RuleSet, 'setIO', {
+		'test file': {
+			args: ['./test/ruleset.json'],
+			returnsSelf: true,
+			test(r, o, file) {
+				eq(o.io.file, file);
+			}
 		}
-	}
-}, {static: true, strict: true});
+	});
+
+	testMethod(RuleSet, 'fromFile', {
+		'test file': {
+			args: ['./test/ruleset.json'],
+			returnType: RuleSet,
+			test(r) {
+				assertProps(r, {
+					title: 'Test RuleSet',
+				});
+				// ---- check rules ----
+				let {rules} = r;
+				eq(rules.length, 2);
+				assertProps(rules[0], {
+					desc: 'Rule Alfa',
+					remaps: [
+						{
+							type: 'basic',
+							from: {key_code: 'a'},
+							to:  [{key_code: 'b'}]
+						}
+					]
+				});
+				assertProps(rules[1], {
+					desc: 'Rule Bravo',
+					remaps: [
+						{
+							type: 'basic',
+							from: {key_code: 'b'},
+							to:  [{key_code: 'c'}]
+						}
+					]
+				});
+			}
+		}
+	}, {static: true, strict: true});
+});
