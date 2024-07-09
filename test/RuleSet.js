@@ -17,23 +17,21 @@ const {
 import {RuleSet} from '../dist/import/bundle.mjs';
 
 describe(`class: RuleSet`, () => {
-	const file = './test/config.json';
-	const data = JSON.parse(fs.readFileSync(file));
-	const newRuleSet = () => RuleSet.fromFile(file);
+	const file = './test/ruleset.json';
 
 	testMethod(RuleSet, 'setIO', {
 		'test file': {
-			args: ['./test/ruleset.json'],
+			args: [file],
 			returnsSelf: true,
-			test(r, o, file) {
-				eq(o.io.file, file);
+			test(r, o, f) {
+				eq(o.io.file, f);
 			}
 		}
 	});
 
 	testMethod(RuleSet, 'fromFile', {
 		'test file': {
-			args: ['./test/ruleset.json'],
+			args: [file],
 			returnType: RuleSet,
 			test(r) {
 				assertProps(r, {
