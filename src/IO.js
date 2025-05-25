@@ -50,7 +50,7 @@ export class IO {
 			let now = new Date();
 			let backup = this.file + '.'
 				+ time.ymd(now, '-') + '.'
-				+ time.hms(now, '') +
+				+ time.hms(now, '') 
 				+ this.opts.backupExt;
 			fs.copyFileSync(this.file, backup);
 		}
