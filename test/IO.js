@@ -7,6 +7,7 @@ const
 
 import {homedir} from 'node:os';
 import {join} from 'node:path';
+import fs from 'node:fs';
 
 import {test} from '@amekusa/nodeutil';
 const {testFn, testMethod, testInstance} = test;
@@ -38,4 +39,28 @@ describe(`class: IO`, () => {
 			}
 		}
 	});
+
+	testMethod(() => {
+		return new IO('test/data/io-read-sample.txt');
+	}, 'read', {
+		'default args': {
+			args: [],
+			returnType: 'string',
+			return: 'IO :: read - sample data\n',
+		}
+	});
+
+	testMethod(() => {
+		return new IO('test/outputs/io-write-sample.txt');
+	}, 'write', {
+		'default opts': {
+			args: ['IO :: write - sample data'],
+			returnSelf: true,
+			test(r, obj, data) {
+				seq(fs.readFileSync(obj.file, {encoding: obj.opts.encoding}), data);
+				fs.rmSync(obj.file);
+			}
+		}
+	});
+
 });
