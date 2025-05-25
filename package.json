@@ -1,6 +1,6 @@
 {
   "name": "karabinerge",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Karabiner-Elements complex modifications generator",
   "type": "module",
   "exports": {
