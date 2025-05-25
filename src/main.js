@@ -32,5 +32,6 @@
 export {RuleSet} from './RuleSet.js';
 export {Rule} from './Rule.js';
 export {Config} from './Config.js';
+export {IO} from './IO.js';
 export * from './fn.js';
 

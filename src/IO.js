@@ -47,10 +47,10 @@ export class IO {
 	 */
 	write(data, opts = {}) {
 		if (this.opts.backup && fs.existsSync(this.file)) {
-			let now = Date.now();
+			let now = new Date();
 			let backup = this.file + '.'
 				+ time.ymd(now, '-') + '.'
-				+ time.hms(now, '') +
+				+ time.hms(now, '') 
 				+ this.opts.backupExt;
 			fs.copyFileSync(this.file, backup);
 		}

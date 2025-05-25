@@ -182,16 +182,17 @@ function ymd(d, format = null) {
 		(d.getMonth() + 1).toString().padStart(2, '0'),
 		d.getDate().toString().padStart(2, '0'),
 	];
-	if (!format) return r;
 	switch (typeof format) {
 	case 'string':
 		return r.join(format);
 	case 'object':
+		if (!format) return r;
 		format.Y = r[0];
 		format.M = r[1];
 		format.D = r[2];
 		return format;
 	default:
+		if (!format) return r;
 		throw `invalid type`;
 	}
 }
@@ -211,16 +212,17 @@ function hms(d, format = null) {
 		d.getMinutes().toString().padStart(2, '0'),
 		d.getSeconds().toString().padStart(2, '0'),
 	];
-	if (!format) return r;
 	switch (typeof format) {
 	case 'string':
 		return r.join(format);
 	case 'object':
+		if (!format) return r;
 		format.h = r[0];
 		format.m = r[1];
 		format.s = r[2];
 		return format;
 	default:
+		if (!format) return r;
 		throw `invalid type`;
 	}
 }
@@ -580,10 +582,10 @@ class IO {
 	 */
 	write(data, opts = {}) {
 		if (this.opts.backup && fs.existsSync(this.file)) {
-			let now = Date.now();
+			let now = new Date();
 			let backup = this.file + '.'
 				+ time.ymd(now, '-') + '.'
-				+ time.hms(now, '') +
+				+ time.hms(now, '') 
 				+ this.opts.backupExt;
 			fs.copyFileSync(this.file, backup);
 		}
@@ -1442,6 +1444,7 @@ class Config {
 }
 
 exports.Config = Config;
+exports.IO = IO;
 exports.Rule = Rule;
 exports.RuleSet = RuleSet;
 exports.click = click;
