@@ -1,4 +1,6 @@
 import {stdout} from 'node:process';
+import {join} from 'node:path';
+import {io} from '@amekusa/nodeutil';
 import {IO} from './IO.js';
 import {Rule} from './Rule.js';
 
@@ -72,13 +74,14 @@ export class RuleSet {
 	}
 	/**
 	 * Setup {@link IO} object for reading/writing this ruleset from/to a file.
-	 * Ruleset files are normally located at `~/.config/karabiner/complex_modifications/*.json`.
-	 * @param {string} file - Ruleset file path
+	 * @param {string} file - Ruleset filename or path.
+	 * If a filename was passed, it is treated as `~/.config/karabiner/complex_modifications/*`.
 	 * @param {object} [opts] - IO options
 	 * @return {RuleSet} Itself
 	 */
 	setIO(file, opts = {}) {
-		this.io = new IO(file, opts);
+		if (!file) throw `invalid argument`;
+		this.io = new IO(file.includes('/') ? file : join(io.home, '.config', 'karabiner', 'complex_modifications', file), opts);
 		return this;
 	}
 	/**
