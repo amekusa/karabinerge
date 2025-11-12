@@ -1,5 +1,5 @@
 import {stdout} from 'node:process';
-import path from 'node:path';
+import {join} from 'node:path';
 import dig from 'obj-digger';
 import {io} from '@amekusa/nodeutil';
 import {IO} from './IO.js';
@@ -61,7 +61,7 @@ export class Config {
 	 * @return {Config} Itself
 	 */
 	setIO(file = null, opts = {}) {
-		this.io = new IO(file || path.join(io.home, '.config', 'karabiner', 'karabiner.json'), opts);
+		this.io = new IO(file || join(io.home, '.config', 'karabiner', 'karabiner.json'), opts);
 		return this;
 	}
 	/**
