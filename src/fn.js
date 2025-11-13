@@ -9,7 +9,24 @@ import {arr, merge, isEmpty} from '@amekusa/util.js';
  * @return {object} an object like: `{ key_code: ... }`
  */
 export function key(code, mods = null, opts = null) {
-	if (Array.isArray(code)) {
+	switch (typeof code) {
+	case 'number':
+		code += '';
+		break;
+	case 'string':
+		code = code.trim();
+		if (code.includes(',')) {
+			let r = [];
+			let codes = code.split(',');
+			for (let i = 0; i < codes.length; i++) {
+				let I = codes[i].trim();
+				if (I) r.push(key(I, mods, opts));
+			}
+			return r;
+		}
+		break;
+	default:
+		if (!Array.isArray(code)) throw `invalid argument (#1)`;
 		let r = [];
 		for (let i = 0; i < code.length; i++) {
 			let I = code[i];
@@ -31,6 +48,9 @@ export function key(code, mods = null, opts = null) {
 		optional: []
 	};
 
+	/**
+	 * @param {string} mod - Modifier name
+	 */
 	function addModifier(mod) {
 		mod = mod.trim();
 		let m = mod.match(/^\((.+?)\)$/); // is '(optional-key)' ?
@@ -39,7 +59,7 @@ export function key(code, mods = null, opts = null) {
 	}
 
 	// parse 'modifier + keycode' expression
-	code = (code + '').split('+');
+	code = code.split('+');
 	for (let i = 0; i < code.length - 1; i++) addModifier(code[i]);
 	code = code[code.length - 1].trim();
 

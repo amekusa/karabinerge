@@ -146,7 +146,7 @@ describe(`functions:`, () => {
 				}
 			}
 		},
-		'string expression :: multiple keys': {
+		'string expression :: array': {
 			args: [[
 				'control + a',
 				'control + shift + a',
@@ -170,6 +170,18 @@ describe(`functions:`, () => {
 				}},
 			]
 		},
+		'string expression :: comma separated list': {
+			args: ['a, b, control + a, control + command + (shift) + (option) + a'],
+			return: [
+				{key_code: 'a'},
+				{key_code: 'b'},
+				{key_code: 'a', modifiers: ['control']},
+				{key_code: 'a', modifiers: {
+					mandatory: ['control', 'command'],
+					optional: ['shift', 'option']
+				}},
+			]
+		}
 
 	}, 'deepEqual');
 });
