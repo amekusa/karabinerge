@@ -80,7 +80,7 @@ export class RuleSet {
 	 * @return {RuleSet} Itself
 	 */
 	setIO(file, opts = {}) {
-		if (!file) throw `invalid argument`;
+		if (!file) throw `invalid argument (#1)`;
 		this.io = new IO(file.includes('/') ? file : join(io.home, '.config', 'karabiner', 'complex_modifications', file), opts);
 		return this;
 	}
