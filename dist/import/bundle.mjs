@@ -1,11 +1,174 @@
 import { stdout } from 'node:process';
-import fs from 'node:fs';
+import path, { join } from 'node:path';
 import { exec as exec$1 } from 'node:child_process';
 import os from 'node:os';
+import fs from 'node:fs';
 import * as fsp from 'node:fs/promises';
-import path from 'node:path';
 import { Transform } from 'node:stream';
 import 'node:assert';
+
+/*!
+ * Shell Utils
+ * @author amekusa
+ */
+
+/**
+ * Executes the given shell command, and returns a Promise that resolves the stdout
+ * @param {string} cmd
+ * @param {object} [opts]
+ * @return {Promise}
+ */
+function exec(cmd, opts = {}) {
+	opts = Object.assign({
+		dryRun: false,
+	}, opts);
+	return new Promise((resolve, reject) => {
+		if (opts.dryRun) {
+			console.log(`[DRYRUN] ${cmd}`);
+			return resolve();
+		}
+		exec$1(cmd, (err, stdout) => {
+			return err ? reject(err) : resolve(stdout);
+		});
+	});
+}
+
+/*!
+ * I/O Utils
+ * @author amekusa
+ */
+
+/**
+ * Alias of `os.homedir()`.
+ * @type {string}
+ */
+const home = os.homedir();
+
+/**
+ * Searchs the given file path in the given directories.
+ * @param {string} file - File to find
+ * @param {string[]} dirs - Array of directories to search
+ * @param {object} [opts] - Options
+ * @return {string|boolean} found file path, or false if not found
+ */
+function find(file, dirs = [], opts = {}) {
+	let {allowAbsolute = true} = opts;
+	if (allowAbsolute && path.isAbsolute(file)) return fs.existsSync(file) ? file : false;
+	for (let i = 0; i < dirs.length; i++) {
+		let find = path.join(dirs[i], file);
+		if (fs.existsSync(find)) return find;
+	}
+	return false;
+}
+
+/**
+ * Replaces the beginning `~` character with `os.homedir()`.
+ * @param {string} file - File path
+ * @param {string} [replace=os.homedir()] - Replacement
+ * @return {string} modified `file`
+ */
+function untilde(file, replace = home) {
+	if (!file.startsWith('~')) return file;
+	if (file.length == 1) return replace;
+	if (file.startsWith(path.sep, 1)) return replace + file.substring(1);
+	return file;
+}
+
+/**
+ * Deletes the contents of the given directory.
+ * @return {Promise}
+ */
+function clean$1(dir, pattern, depth = 1) {
+	return exec(`find '${dir}' -type f -name '${pattern}' -maxdepth ${depth} -delete`);
+}
+
+/**
+ * Deletes the given file or directory.
+ * @param {string} file
+ * @return {Promise}
+ */
+function rm(file) {
+	return fsp.rm(file, {recursive: true, force: true});
+}
+
+/**
+ * Deletes the given file or directory synchronously.
+ * @param {string} file
+ */
+function rmSync(file) {
+	return fs.rmSync(file, {recursive: true, force: true});
+}
+
+/**
+ * Copies the given file(s) to another directory
+ * @param {string|object|string[]|object[]} src
+ * @param {string} dst Base destination directory
+ * @return {Promise}
+ */
+function copy(src, dst) {
+	return Promise.all((Array.isArray(src) ? src : [src]).map(item => {
+		let _src, _dst;
+		switch (typeof item) {
+		case 'object':
+			_src = item.src;
+			_dst = item.dst;
+			break;
+		case 'string':
+			_src = item;
+			break;
+		default:
+			throw 'invalid type';
+		}
+		_dst = path.join(dst, _dst || path.basename(_src));
+		return fsp.mkdir(path.dirname(_dst), {recursive: true}).then(fsp.copyFile(_src, _dst));
+	}));
+}
+
+/**
+ * Returns a Transform stream object with the given function as its transform() method.
+ * `fn` must return a string which is to be the new content, or a Promise which resolves a string.
+ *
+ * @example
+ * return gulp.src(src)
+ *   .pipe(modify((data, enc) => {
+ *     // do stuff
+ *     return newData;
+ *   }));
+ *
+ * @param {function} fn
+ * @return {Transform}
+ */
+function modifyStream(fn) {
+	return new Transform({
+		objectMode: true,
+		transform(file, enc, done) {
+			let r = fn(file.contents.toString(enc), enc);
+			if (r instanceof Promise) {
+				r.then(modified => {
+					file.contents = Buffer.from(modified, enc);
+					this.push(file);
+					done();
+				});
+			} else {
+				file.contents = Buffer.from(r, enc);
+				this.push(file);
+				done();
+			}
+		}
+	});
+}
+
+var io = /*#__PURE__*/Object.freeze({
+__proto__: null,
+clean: clean$1,
+copy: copy,
+find: find,
+home: home,
+modifyStream: modifyStream,
+rm: rm,
+rmSync: rmSync,
+untilde: untilde
+});
 
 /*!
  * === @amekusa/util.js/web === *
@@ -289,12 +452,12 @@ function isEmpty(x) {
  * @param {number} recurse - Recursion limit
  * @return {object|any[]} modified `x`
  */
-function clean$1(x, recurse = 8) {
+function clean(x, recurse = 8) {
 	if (recurse) {
 		if (Array.isArray(x)) {
 			let r = [];
 			for (let i = 0; i < x.length; i++) {
-				let I = clean$1(x[i], recurse - 1);
+				let I = clean(x[i], recurse - 1);
 				if (!isEmpty(I)) r.push(I);
 			}
 			return r;
@@ -302,7 +465,7 @@ function clean$1(x, recurse = 8) {
 		if (typeof x == 'object') {
 			let r = {};
 			for (let k in x) {
-				let v = clean$1(x[k], recurse - 1);
+				let v = clean(x[k], recurse - 1);
 				if (!isEmpty(v)) r[k] = v;
 			}
 			return r;
@@ -352,169 +515,6 @@ function merge(x, y, opts = {}) {
 	}
 	return y;
 }
-
-/*!
- * Shell Utils
- * @author amekusa
- */
-
-/**
- * Executes the given shell command, and returns a Promise that resolves the stdout
- * @param {string} cmd
- * @param {object} [opts]
- * @return {Promise}
- */
-function exec(cmd, opts = {}) {
-	opts = Object.assign({
-		dryRun: false,
-	}, opts);
-	return new Promise((resolve, reject) => {
-		if (opts.dryRun) {
-			console.log(`[DRYRUN] ${cmd}`);
-			return resolve();
-		}
-		exec$1(cmd, (err, stdout) => {
-			return err ? reject(err) : resolve(stdout);
-		});
-	});
-}
-
-/*!
- * I/O Utils
- * @author amekusa
- */
-
-/**
- * Alias of `os.homedir()`.
- * @type {string}
- */
-const home = os.homedir();
-
-/**
- * Searchs the given file path in the given directories.
- * @param {string} file - File to find
- * @param {string[]} dirs - Array of directories to search
- * @param {object} [opts] - Options
- * @return {string|boolean} found file path, or false if not found
- */
-function find(file, dirs = [], opts = {}) {
-	let {allowAbsolute = true} = opts;
-	if (allowAbsolute && path.isAbsolute(file)) return fs.existsSync(file) ? file : false;
-	for (let i = 0; i < dirs.length; i++) {
-		let find = path.join(dirs[i], file);
-		if (fs.existsSync(find)) return find;
-	}
-	return false;
-}
-
-/**
- * Replaces the beginning `~` character with `os.homedir()`.
- * @param {string} file - File path
- * @param {string} [replace=os.homedir()] - Replacement
- * @return {string} modified `file`
- */
-function untilde(file, replace = home) {
-	if (!file.startsWith('~')) return file;
-	if (file.length == 1) return replace;
-	if (file.startsWith(path.sep, 1)) return replace + file.substring(1);
-	return file;
-}
-
-/**
- * Deletes the contents of the given directory.
- * @return {Promise}
- */
-function clean(dir, pattern, depth = 1) {
-	return exec(`find '${dir}' -type f -name '${pattern}' -maxdepth ${depth} -delete`);
-}
-
-/**
- * Deletes the given file or directory.
- * @param {string} file
- * @return {Promise}
- */
-function rm(file) {
-	return fsp.rm(file, {recursive: true, force: true});
-}
-
-/**
- * Deletes the given file or directory synchronously.
- * @param {string} file
- */
-function rmSync(file) {
-	return fs.rmSync(file, {recursive: true, force: true});
-}
-
-/**
- * Copies the given file(s) to another directory
- * @param {string|object|string[]|object[]} src
- * @param {string} dst Base destination directory
- * @return {Promise}
- */
-function copy(src, dst) {
-	return Promise.all((Array.isArray(src) ? src : [src]).map(item => {
-		let _src, _dst;
-		switch (typeof item) {
-		case 'object':
-			_src = item.src;
-			_dst = item.dst;
-			break;
-		case 'string':
-			_src = item;
-			break;
-		default:
-			throw 'invalid type';
-		}
-		_dst = path.join(dst, _dst || path.basename(_src));
-		return fsp.mkdir(path.dirname(_dst), {recursive: true}).then(fsp.copyFile(_src, _dst));
-	}));
-}
-
-/**
- * Returns a Transform stream object with the given function as its transform() method.
- * `fn` must return a string which is to be the new content, or a Promise which resolves a string.
- *
- * @example
- * return gulp.src(src)
- *   .pipe(modify((data, enc) => {
- *     // do stuff
- *     return newData;
- *   }));
- *
- * @param {function} fn
- * @return {Transform}
- */
-function modifyStream(fn) {
-	return new Transform({
-		objectMode: true,
-		transform(file, enc, done) {
-			let r = fn(file.contents.toString(enc), enc);
-			if (r instanceof Promise) {
-				r.then(modified => {
-					file.contents = Buffer.from(modified, enc);
-					this.push(file);
-					done();
-				});
-			} else {
-				file.contents = Buffer.from(r, enc);
-				this.push(file);
-				done();
-			}
-		}
-	});
-}
-
-var io = /*#__PURE__*/Object.freeze({
-__proto__: null,
-clean: clean,
-copy: copy,
-find: find,
-home: home,
-modifyStream: modifyStream,
-rm: rm,
-rmSync: rmSync,
-untilde: untilde
-});
 
 /**
  * File I/O manager.
@@ -801,7 +801,24 @@ class Sanitizer {
  * @return {object} an object like: `{ key_code: ... }`
  */
 function key(code, mods = null, opts = null) {
-	if (Array.isArray(code)) {
+	switch (typeof code) {
+	case 'number':
+		code += '';
+		break;
+	case 'string':
+		code = code.trim();
+		if (code.includes(',')) {
+			let r = [];
+			let codes = code.split(',');
+			for (let i = 0; i < codes.length; i++) {
+				let I = codes[i].trim();
+				if (I) r.push(key(I, mods, opts));
+			}
+			return r;
+		}
+		break;
+	default:
+		if (!Array.isArray(code)) throw `invalid argument (#1)`;
 		let r = [];
 		for (let i = 0; i < code.length; i++) {
 			let I = code[i];
@@ -823,6 +840,9 @@ function key(code, mods = null, opts = null) {
 		optional: []
 	};
 
+	/**
+	 * @param {string} mod - Modifier name
+	 */
 	function addModifier(mod) {
 		mod = mod.trim();
 		let m = mod.match(/^\((.+?)\)$/); // is '(optional-key)' ?
@@ -831,7 +851,7 @@ function key(code, mods = null, opts = null) {
 	}
 
 	// parse 'modifier + keycode' expression
-	code = (code + '').split('+');
+	code = code.split('+');
 	for (let i = 0; i < code.length - 1; i++) addModifier(code[i]);
 	code = code[code.length - 1].trim();
 
@@ -989,7 +1009,7 @@ function unless_lang(...lang) {
  * {@link key} function returns in this format.
  *
  * #### String Format
- * A special expression that is only supported by Karabinerge for user's convenience.
+ * A special expression that is only supported by Karabinerge.
  * Here are some examples:
  *
  * | Expression | Meaning |
@@ -1066,7 +1086,7 @@ class Rule {
 	remap(map) {
 		if (!map.type) map.type = 'basic';
 		if (this.conds.length) map = Object.assign(map, {conditions: this.conds});
-		map = clean$1(remapSanitizer.sanitize(map));
+		map = clean(remapSanitizer.sanitize(map));
 		if (isEmpty(map)) console.warn(`Rule.remap: empty argument`);
 		else this.remaps.push(map);
 		return this;
@@ -1088,7 +1108,7 @@ class Rule {
 	 *   .remap( ... );
 	 */
 	cond(cond) {
-		cond = clean$1(cond);
+		cond = clean(cond);
 		if (isEmpty(cond)) console.warn(`Rule.cond: empty argument`);
 		else this.conds.push(cond);
 		return this;
@@ -1206,13 +1226,14 @@ class RuleSet {
 	}
 	/**
 	 * Setup {@link IO} object for reading/writing this ruleset from/to a file.
-	 * Ruleset files are normally located at `~/.config/karabiner/complex_modifications/*.json`.
-	 * @param {string} file - Ruleset file path
+	 * @param {string} file - Ruleset filename or path.
+	 * If a filename was passed, it is treated as `~/.config/karabiner/complex_modifications/*`.
 	 * @param {object} [opts] - IO options
 	 * @return {RuleSet} Itself
 	 */
 	setIO(file, opts = {}) {
-		this.io = new IO(file, opts);
+		if (!file) throw `invalid argument (#1)`;
+		this.io = new IO(file.includes('/') ? file : join(io.home, '.config', 'karabiner', 'complex_modifications', file), opts);
 		return this;
 	}
 	/**
@@ -1320,7 +1341,7 @@ class Config {
 	 * @return {Config} Itself
 	 */
 	setIO(file = null, opts = {}) {
-		this.io = new IO(file || path.join(io.home, '.config', 'karabiner', 'karabiner.json'), opts);
+		this.io = new IO(file || join(io.home, '.config', 'karabiner', 'karabiner.json'), opts);
 		return this;
 	}
 	/**
