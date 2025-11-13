@@ -12,7 +12,7 @@ import {key} from './fn.js';
  * {@link key} function returns in this format.
  *
  * #### String Format
- * A special expression that is only supported by Karabinerge for user's convenience.
+ * A special expression that is only supported by Karabinerge.
  * Here are some examples:
  *
  * | Expression | Meaning |
